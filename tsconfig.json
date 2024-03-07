@@ -1,5 +1,7 @@
 // prettier-ignore
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "React Native",
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
@@ -97,7 +99,15 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    /* Skip type checking all .d.ts files. */
+
+    "baseUrl": ".",
+    "skipLibCheck": false,
+    "useDefineForClassFields": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"
