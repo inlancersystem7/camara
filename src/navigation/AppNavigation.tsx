@@ -9,10 +9,12 @@ import React, {useEffect} from 'react';
 import { HomeScreen } from "@/Screen/HomeScreen";
 import { observer } from "mobx-react-lite";
 import { SplashScreen } from "@/Screen/SplashScreen";
+import {CameraScreen} from "@/Screen/CameraScreen";
 
 export type stackParamList = {
   SplashScreen: undefined;
   HomeScreen: undefined;
+  CameraScreen:undefined;
 };
 
 const navigationRef = createNavigationContainerRef<stackParamList>();
@@ -20,6 +22,7 @@ const navigationRef = createNavigationContainerRef<stackParamList>();
 export enum Routes {
   Splash = 'SplashScreen',
   Home = 'HomeScreen',
+  Camera = 'CameraScreen'
 }
 interface NavigationProps {
   screenName: Routes;
@@ -102,6 +105,7 @@ export const AppNavigator: React.FC<AppNavigationProps> = observer(
           initialRouteName={Routes.Splash}>
           <Stack.Screen name={Routes.Splash} component={SplashScreen} />
           <Stack.Screen name={Routes.Home} component={HomeScreen} />
+          <Stack.Screen name={Routes.Camera} component={CameraScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

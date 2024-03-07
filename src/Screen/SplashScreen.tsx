@@ -1,12 +1,8 @@
 import React, {useEffect} from 'react';
 import {reset, Routes} from '@/navigation/AppNavigation';
 import {Box} from '@/component/Box';
-import {Image} from '@/component/Image';
-import {Images} from '@/assets';
-import {accountStore} from '@/stores/AccountStore';
 import {Screen} from '@/component/Screen';
-import {userFactory} from '@/factory/UserFactory';
-import { Text } from "@/component";
+import {Text} from "@/component";
 
 export const SplashScreen: React.FC = () => {
   useEffect(() => {
@@ -16,7 +12,7 @@ export const SplashScreen: React.FC = () => {
   const checkAndNavigate = async () => {
         setTimeout(() => {
           reset({
-            screenName: Routes.Home,
+            screenName: Routes.Camera,
           });
         }, 2000);
   };
