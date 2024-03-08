@@ -8,11 +8,11 @@ import { DeviceHelper } from "@/helper/DeviceHelper";
 
 export interface CategoriesPhotosProps {
   Categories?: string;
-  handleCloseModal?: () => void;
+  onCamaraPress?: () => void;
 }
 
 
-export const CategoriesPhotos : React.FC<CategoriesPhotosProps> = ({Categories}: CategoriesPhotosProps) => {
+export const CategoriesPhotos : React.FC<CategoriesPhotosProps> = ({Categories,onCamaraPress}: CategoriesPhotosProps) => {
 
   const data = [1,2,3,4,5,6, 7 , 7 , 7];
   return (
@@ -29,7 +29,7 @@ export const CategoriesPhotos : React.FC<CategoriesPhotosProps> = ({Categories}:
         >
           {Categories}
         </Text>
-        <Pressable width={30}>
+        <Pressable onPress={onCamaraPress} width={30}>
           <Image
             source={Images.camera}
             width={DeviceHelper.calculateWidthRatio(20)}
