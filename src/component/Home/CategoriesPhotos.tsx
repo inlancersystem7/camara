@@ -5,6 +5,7 @@ import { ScrollView } from "react-native";
 import { Images } from "@/assets";
 import { Image } from "@/component/Image";
 import { DeviceHelper } from "@/helper/DeviceHelper";
+import { useSelector } from "react-redux";
 
 export interface CategoriesPhotosProps {
   Categories?: string;
@@ -14,7 +15,8 @@ export interface CategoriesPhotosProps {
 
 export const CategoriesPhotos : React.FC<CategoriesPhotosProps> = ({Categories,onCamaraPress}: CategoriesPhotosProps) => {
 
-  const data = [1,2,3,4,5,6, 7 , 7 , 7];
+  const photoList = useSelector((state: any) => state.photosReducers.photosList);
+
   return (
     <Box marginTop={"r"}>
       <Box
@@ -40,10 +42,10 @@ export const CategoriesPhotos : React.FC<CategoriesPhotosProps> = ({Categories,o
         </Pressable>
       </Box>
       <ScrollView style={{marginTop:12}} horizontal={true} showsHorizontalScrollIndicator={false}>
-        {data.map(index => (
+        {photoList.map((item,index) => (
           <Box key={index} borderRadius={6} marginLeft={"r"}>
             <Image
-              source={Images.food2}
+              source={{ uri: `data:image/jpeg;base64,${item.value}` }}
               width={DeviceHelper.calculateWidthRatio(120)}
               resizeMode="cover"
               borderRadius={6}

@@ -5,16 +5,41 @@ import {Pressable} from "@/component";
 import {DeviceHelper} from "@/helper/DeviceHelper";
 import RNFS from 'react-native-fs';
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { addPhotos } from "@/redux/actions/photosAction";
 
-export const CameraComponent: React.FC = () => {
+export interface CameraComponentProps {
+    category: string;
+    client: string;
+}
+
+export const CameraComponent: React.FC<CameraComponentProps> = ({category,client}:CameraComponentProps) => {
     const cameraRef = useRef<RNCamera>(null);
+    const currentDate = new Date();
+    const dispatch = useDispatch();
 
     const saveImageToGallery = async (imageUri: string) => {
         try {
             const date = moment().format('YYYYMMDDhhmmss');
             const filePath = RNFS.PicturesDirectoryPath + `/${date}camera.jpg`;
             await RNFS.moveFile(imageUri, filePath);
-            console.log('Image saved to gallery:', filePath);
+            // console.log('Image saved to gallery:', filePath);
+        } catch (error) {
+            console.error('Failed to save image:', error);
+        }
+    };
+
+    const saveImageToDatabase = async (imageUrl: string) => {
+        try {
+            const key = currentDate.toString();
+            const json = {
+                key,
+                value: imageUrl,
+                category: 'Story',
+            };
+            // console.log("json",json);
+            dispatch(addPhotos(json));
+            console.log('Image saved to gallery:');
         } catch (error) {
             console.error('Failed to save image:', error);
         }
@@ -24,13 +49,12 @@ export const CameraComponent: React.FC = () => {
         if (cameraRef.current) {
             const options = {
                 quality: 0.5,
-                base64: false,
+                base64: true,
                 doNotSave: false,
                 pauseAfterCapture:true
             };
             const data = await cameraRef.current.takePictureAsync(options);
             cameraRef.current.resumePreview()
-            console.log("data ==>",data);
             try {
                 const granted = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -45,6 +69,7 @@ export const CameraComponent: React.FC = () => {
                 );
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     await saveImageToGallery(data.uri)
+                    await saveImageToDatabase(data.base64)
                     return true;
                 } else {
                     console.log("Camera permission denied");
@@ -76,6 +101,7 @@ export const CameraComponent: React.FC = () => {
                 alignSelf={'center'}
                 bottom={10}
                 borderRadius={DeviceHelper.calculateWidthRatio(40)}
+                disabled={client === '' || category === ''}
             >
 
             </Pressable>

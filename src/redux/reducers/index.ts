@@ -1,14 +1,7 @@
-import { combineReducers } from 'redux';
-import * as notesReducer from "./notesReducers";
-
-// const rootReducer = combineReducers({
-//   notesReducer,
-//   // Add other reducers here if needed
-// });
-//
-// export default rootReducer;
-
+import * as categoriesReducers from "./categoriesReducers";
+import * as photosReducers from "./photosReducers";
 
 export default Object.assign(
-  notesReducer,
+  categoriesReducers,
+  photosReducers,
 )

@@ -1,12 +1,12 @@
 import React from 'react';
 import {observer} from 'mobx-react-lite';
 import {Box} from '../Box';
-import {DeviceHelper} from '../../helper/DeviceHelper';
-import {Pressable} from '../Pressable';
+import {DeviceHelper} from "@/helper/DeviceHelper";
+import {Pressable} from "@/component";
 import {Image} from '../Image';
-import {Images} from '../../assets';
+import {Images} from "@/assets";
 import {Text} from '../Text';
-import {fonts} from '../../style/Fonts';
+import {fonts} from "@/style";
 
 export interface HomeHeaderProps {
 	onBackPress?: () => void;
@@ -32,17 +32,12 @@ export const Header: React.FC<HomeHeaderProps> = observer(
 				backgroundColor={'white'}
 				justifyContent={'center'}
 				width={DeviceHelper.width()}
-				height={HEADER_HEIGHT}
-				shadowColor={'gray'}
-				shadowOffset={{width: 0, height: 1}}
-				shadowOpacity={0.5}
-				shadowRadius={2}
-				elevation={5}>
+				height={HEADER_HEIGHT}>
 				<Box flexDirection={'row'} flex={1}>
 					{isMenu ? (
 						<Box
-							marginStart={'s'}
-							flex={0.3}
+							marginStart={'r'}
+							// flex={0.3}
 							justifyContent={'center'}
 							marginTop={'sr'}>
 							<Pressable
@@ -59,17 +54,16 @@ export const Header: React.FC<HomeHeaderProps> = observer(
 						</Box>
 					) : (
 						<Box
-							marginStart={'s'}
-							flex={0.3}
+							marginStart={"r"}
 							justifyContent={'center'}
 							marginTop={'sr'}>
 							<Pressable
 								onPress={onBackPress}
-								alignItems={'center'}
+								// alignItems={'center'}
 								height={DeviceHelper.calculateHeightRatio(40)}
 								width={DeviceHelper.calculateWidthRatio(40)}>
 								<Image
-									source={Images.back_arrow}
+									source={Images.left_arrow}
 									height={DeviceHelper.calculateHeightRatio(25)}
 									width={DeviceHelper.calculateWidthRatio(30)}
 								/>
@@ -78,14 +72,15 @@ export const Header: React.FC<HomeHeaderProps> = observer(
 					)}
 					<Box
 						flex={1}
-						marginHorizontal={'s'}
+						// marginHorizontal={'s'}
 						justifyContent={'center'}
-						alignItems={'center'}>
+						// alignItems={'center'}
+					>
 						<Text
 							fontSize={18}
-							textAlign={'center'}
-							fontFamily={fonts.medium}
-							color={'primary'}>
+							// textAlign={'center'}
+							fontFamily={fonts.bold}
+							color={'black'}>
 							{label}
 						</Text>
 					</Box>

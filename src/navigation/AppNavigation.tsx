@@ -6,27 +6,39 @@ import {
   StackActions,
 } from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import { HomeScreen } from "@/Screen/HomeScreen";
 import { observer } from "mobx-react-lite";
 import { SplashScreen } from "@/Screen/SplashScreen";
-import {CameraScreen} from "@/Screen/CameraScreen";
+import HomeScreen from "@/Screen/HomeScreen";
+
+import CameraScreen from "@/Screen/CameraScreen";
+import NotesScreen from "@/Screen/NotesScreen";
+import DashboardScreen from "@/Screen/DashboardScreen";
+import ClientScreen from "@/Screen/ClientScreen";
+import AllPhotosScreen from "@/Screen/AllPhotosScreen";
 
 export type stackParamList = {
   SplashScreen: undefined;
   HomeScreen: undefined;
   CameraScreen:undefined;
+  DashboardScreen:undefined;
+  ClientScreen:undefined;
+  AllPhotosScreen:undefined;
 };
 
 const navigationRef = createNavigationContainerRef<stackParamList>();
 
 export enum Routes {
+  Dashboard = 'DashboardScreen',
   Splash = 'SplashScreen',
   Home = 'HomeScreen',
-  Camera = 'CameraScreen'
+  Camera = 'CameraScreen',
+  Notes = 'NotesScreen',
+  Client = 'ClientScreen',
+  AllPhotos = 'AllPhotosScreen',
 }
 interface NavigationProps {
   screenName: Routes;
-  params?: any;
+  params?: any;s
 }
 
 export function navigate({screenName, params}: NavigationProps) {
@@ -104,8 +116,12 @@ export const AppNavigator: React.FC<AppNavigationProps> = observer(
           }}
           initialRouteName={Routes.Splash}>
           <Stack.Screen name={Routes.Splash} component={SplashScreen} />
+          <Stack.Screen name={Routes.Dashboard} component={DashboardScreen} />
           <Stack.Screen name={Routes.Home} component={HomeScreen} />
           <Stack.Screen name={Routes.Camera} component={CameraScreen} />
+          <Stack.Screen name={Routes.Notes} component={NotesScreen} />
+          <Stack.Screen name={Routes.Client} component={ClientScreen} />
+          <Stack.Screen name={Routes.AllPhotos} component={AllPhotosScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

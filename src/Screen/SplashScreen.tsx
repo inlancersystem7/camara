@@ -12,7 +12,7 @@ export const SplashScreen: React.FC = () => {
   const checkAndNavigate = async () => {
         setTimeout(() => {
           reset({
-            screenName: Routes.Home,
+            screenName: Routes.Dashboard,
           });
         }, 2000);
   };

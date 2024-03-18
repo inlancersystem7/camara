@@ -24,6 +24,7 @@ export const theme = createTheme({
     ls: 40,
     el: 54,
     se: 68,
+    ell: 88,
     el100: 100,
     ll: 140,
     lll:220,

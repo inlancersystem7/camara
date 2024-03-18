@@ -35,22 +35,22 @@ export const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
   const statusBarColor = (): ColorValue => {
     switch (statusBarType) {
       case StatusBarType.Light:
-        return colors.primary;
+        return colors.white;
       case StatusBarType.Dark:
-        return colors.black3;
+        return colors.black;
       default:
-        return colors.orange;
+        return colors.white;
     }
   };
 
-  const statusBarStyles = (): StatusBarStyle => {
+  const statusBarStyle = (): StatusBarStyle => {
     switch (statusBarType) {
       case StatusBarType.Light:
         return 'dark-content';
       case StatusBarType.Dark:
         return 'light-content';
       default:
-        return 'default';
+        return 'dark-content';
     }
   };
 
@@ -60,14 +60,8 @@ export const Screen: React.FC<ScreenProps> = (props: ScreenProps) => {
       style={{
         paddingTop: translucent ? StatusBar.currentHeight : 0,
       }}
-      backgroundColor={backgroundColor ?? 'background'}>
-      {/*<StatusBar*/}
-      {/*  hidden={hideStatusBar}*/}
-      {/*  animated={true}*/}
-      {/*  backgroundColor={translucent ? undefined : statusBarColor()}*/}
-      {/*  barStyle={statusBarStyles()}*/}
-      {/*  translucent={translucent}*/}
-      {/*/>*/}
+      backgroundColor={backgroundColor ?? 'white'}>
+      <StatusBar animated backgroundColor={statusBarColor()} barStyle={statusBarStyle()} />
       {children}
     </Box>
   );
