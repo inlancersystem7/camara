@@ -1,6 +1,6 @@
 import database from '@/WaterMelon/database';
-import Notes from "@/WaterMelon/Model/Notes";
-import { NotesDto } from "@/DTOs/NotesDto";
+import Client from "@/WaterMelon/Model/Client";
+import { ClientDto } from "@/Dtos/ClientDto";
 
 
 class DBNotes {
@@ -11,7 +11,7 @@ class DBNotes {
          */
 		console.log("favourite",favourite);
 		await database.write(async () =>
-			database.get<Notes>('Notes').create((favouriteObj) => {
+			database.get<Client>('Client').create((favouriteObj) => {
 				console.log("favourite.key",favouriteObj.key);
 				console.log("favourite.value",favouriteObj.value);
 				favouriteObj.key = favourite.data.key ?? '';
@@ -21,7 +21,7 @@ class DBNotes {
 	}
 
 	// eslint-disable-next-line class-methods-use-this
-	async getNotesData(): Promise<NotesDto[]> {
+	async getClientData(): Promise<ClientDto[]> {
 		try {
 			const notesRecords = await database
 				.get<Notes>('Notes')

@@ -1,72 +1,72 @@
-import React, {useEffect, useState} from 'react';
-import { Box, Text } from "@/component";
+import React, { useEffect, useState } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
-import { stackParamList } from "@/navigation/AppNavigation";
-import { connect } from "react-redux";
+import { navigate, Routes, stackParamList } from "@/navigation/AppNavigation";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Screen } from "@/component/Screen";
 import { Header } from "@/component/Header/Header";
-import { UserDetail } from "@/component/DashBoard/UserDetail";
-import { FlatList, ScrollView } from "react-native";
-import { CategoryView } from "@/component/DashBoard/CategoryView";
-import * as photosAction from "@/redux/actions/photosAction";
-import { Photos } from "@/component/DashBoard/Photos";
-import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
+import { ScrollView } from "react-native";
+import { ClientView } from "@/component/Client/ClientView";
+import { Pressable, Text } from "@/component";
+import { fonts } from "@/style";
+import { AddClientModel } from "@/component/Client/AddClientModel";
+import { clientReducer } from "@/redux/reducers/clientReducer";
+import { getClientList } from "@/redux/actions/clientAction";
+import { ClientDto } from "@/Dtos/ClientDto";
+import { Client } from "@/Model/Client";
 
 const ClientScreen: React.FC = () => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
+  const [isClient, setIsClient] = useState(false);
+  const dispatch = useDispatch();
 
-  const [category, setCategory] = useState([])
-  useEffect( () => {
+  const handleOnDetailPress = (selectedItem : Client) => {
+    navigate({
+      screenName: Routes.ClientDetail,
+      params: {
+        detail: selectedItem,
+      },
+    });
+  }
+
+  const callFactory = async () => {
+    dispatch(getClientList([]));
+  };
+
+  useEffect(() => {
     callFactory();
   }, []);
 
-  const callFactory = async () => {
-    const data = dbCategories.getCategoriesData();
-    console.log("datass",await data);
-    // return data;
-    setCategory(await data);
-  }
-  console.log("cCCC",category);
-
-  const data = [1,2,3,4,5,4,5,6,7,8,8,9,4];
+  const clientList = useSelector((state: any) => state.clientReducer.clientList);
+  console.log("clientList=>",clientList);
 
   return(
     <Screen>
-      <Header onBackPress={goBack} label={'Client'}/>
-      <UserDetail/>
-      <Box marginTop={"r"}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <CategoryView
-            onCategorySelected={categories => {
-              console.log("categories",categories);
-            }}
-            categoryListItems={category}/>
-        </ScrollView>
-      </Box>
-      <Box>
-        <FlatList
-          data={data}
-          numColumns={3}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.name}
-          renderItem={({ item, index }) => {
-            console.log("item->",item);
-            return(
-              <Photos photosList={item}/>
-            )
-          }}
-          onEndReachedThreshold={0.1}
-        />
-      </Box>
+      <Header
+        rightComponent={
+        <Pressable onPress={()=>setIsClient(true)} marginRight={"r"}>
+          <Text textAlign={"right"} color={"black"} fontSize={22} fontFamily={fonts.bold}>
+            +
+          </Text>
+        </Pressable>
+        }
+        onBackPress={goBack}
+        label={'Client'}/>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {clientList?.map((item, index) => {
+          return(
+            <ClientView client={item} onDetailPress={() => handleOnDetailPress(item)}/>
+          )
+        })}
+      </ScrollView>
+      <AddClientModel isVisible={isClient} onClose={()=>setIsClient(false)} />
     </Screen>
   )
 }
 
 const mapStateToProps = (state: any) => {
   return {
-    categories: state.categoriesReducers?.categoryList || [],
-    photos: state.photosReducers?.photosList || [],
+    clients: state.clientReducer.client || [],
   };
 };
 

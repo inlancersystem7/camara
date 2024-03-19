@@ -5,7 +5,7 @@ import { RecentPhotos } from "@/component/DashBoard/RecentPhotos";
 import { Categories } from "@/component/Home/Categories";
 import { ScrollView } from "react-native";
 import { Box, Pressable, Text } from "@/component";
-import { AddCategoriesModel } from "@/component/Home/AddCategoriesModel";
+import { AddCategoriesModel } from "@/component/Category/AddCategoriesModel";
 import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
 import { connect, useSelector } from "react-redux";
 import { categoriesReducers } from "@/redux/reducers/categoriesReducers";

@@ -39,15 +39,18 @@ export const Button: React.FC<ButtonProps> = ({
       justifyContent={'center'}
       disabled={disabled}
       height={DeviceHelper.calculateHeightRatio(62)}
-      backgroundColor={disabled || !isActive ? 'white5' : 'orange'}>
+      borderWidth={1}
+      borderColor={"black"}
+      // backgroundColor={disabled || !isActive ? 'white5' : 'orange'}
+      >
       {isShowLoader() ? (
         <ActivityIndicator size="small" color="white" />
       ) : (
         <Text
-          color={'white'}
-          fontSize={22}
+          color={'black'}
+          fontSize={18}
           textAlign={'center'}
-          fontFamily={fonts.semiBold}>
+          fontFamily={fonts.medium}>
           {label}
         </Text>
       )}

@@ -3,17 +3,13 @@ import { Screen, StatusBarType } from "@/component/Screen";
 import { Box } from "@/component";
 import { CameraComponent } from "@/component/Camera/CameraComponent";
 import { connect } from "react-redux";
-import { Header } from "@/component/Header/Header";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { stackParamList } from "@/navigation/AppNavigation";
 import { ClientCategoryDropdown } from "@/component/Camera/ClientCategoryDropdown";
 
 export const CameraScreen: React.FC = () => {
-  const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const [client , setClient] = useState('');
   const [category , setCategory] = useState('');
 
+  console.log("clint",client,"cate",category);
     return(
         <Screen statusBarType={StatusBarType.Dark} backgroundColor={'white'}>
             <Box flex={1}>

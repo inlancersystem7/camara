@@ -1,14 +1,15 @@
 import React from 'react';
-import {Box} from './Box';
-import {DeviceHelper} from "@/helper/DeviceHelper";
-import {Text} from './Text';
-import {TextInput, TextInputProps} from 'react-native';
-import {useTheme} from '@shopify/restyle';
-import {Theme} from "@/style";
-import {Pressable} from './Pressable';
-import {Image} from './Image';
-import {Images} from "@/assets";
-import {fonts} from "@/style";
+import { TextInput, TextInputProps } from 'react-native';
+import { useTheme } from '@shopify/restyle';
+import { Box } from './Box';
+import { DeviceHelper } from '../helper/DeviceHelper';
+import { Text } from './Text';
+import { Theme } from '../style/Theme';
+import { Pressable } from './Pressable';
+import { Image } from './Image';
+import { Images } from '../assets';
+import { fonts } from '../style/Fonts';
+import { FieldError, FieldErrorProps } from './FieldError';
 
 export interface InputHintProps {
   hint?: string;
@@ -19,9 +20,13 @@ export interface InputImageProps {
   iconName?: Images;
 }
 
-export interface Input extends InputHintProps, InputImageProps, TextInputProps {
+export interface InputProps
+  extends InputHintProps,
+    InputImageProps,
+    TextInputProps {
   onPress?: () => void;
   leftComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
   isBottomMargin?: boolean;
   hasError?: boolean;
   isCountry?: boolean;
@@ -31,75 +36,72 @@ export interface Input extends InputHintProps, InputImageProps, TextInputProps {
   isHeight?: boolean;
   height?: number;
   isIcon?: boolean;
+  onApply?: () => void;
+  disable?: boolean;
 }
 
-export const InputHint: React.FC<InputHintProps> = ({hint}: InputHintProps) => {
-  return (
-    <Box
-      position={'absolute'}
-      paddingHorizontal={'ss'}
-      top={-8}
-      left={16}
-      backgroundColor={'white'}>
-      <Text variant={'inputHint'}>{hint}</Text>
-    </Box>
-  );
-};
+export const InputHint: React.FC<InputHintProps> = ({ hint }: InputHintProps) => (
+  <Box
+    position="absolute"
+    paddingHorizontal="ss"
+    top={-8}
+    left={16}
+    backgroundColor="white"
+  >
+    <Text variant="inputHint">{hint}</Text>
+  </Box>
+);
 
 export const InputImage: React.FC<InputImageProps> = ({
-  iconName,
-}: InputImageProps) => {
-  return (
-    <Box>
-      <Image
-        source={iconName}
-        width={DeviceHelper.calculateWidthRatio(20)}
-        height={DeviceHelper.calculateHeightRatio(20)}
-      />
-    </Box>
-  );
-};
+                                                        iconName,
+                                                      }: InputImageProps) => (
+  <Box>
+    <Image
+      source={iconName}
+      width={DeviceHelper.calculateWidthRatio(20)}
+      height={DeviceHelper.calculateHeightRatio(20)}
+    />
+  </Box>
+);
 
-export const Input: React.FC<Input> = (props: Input) => {
+export const Input: React.FC<InputProps> = (props: InputProps) => {
   const {
     onPress,
     leftComponent,
-    isBottomMargin = true,
+    isBottomMargin = false,
     hasError = false,
-    isCountry = false,
-    countryName,
     maxLength,
-    isHeight = false,
-    height = 0,
-    isIcon = false,
+    height,
+    disable = false,
+    rightComponent,
   } = props;
   const textInputProps = props as TextInputProps;
-  const {multiline, value, placeholder, keyboardType, autoCapitalize} =
-    textInputProps;
-  const {colors} = useTheme<Theme>();
-  const {black} = colors;
-  const {gray} = colors;
+  const fieldErrorProps = props as FieldErrorProps;
+  const { multiline, value, placeholder, keyboardType, autoCapitalize } =		textInputProps;
+  const { colors } = useTheme<Theme>();
+  const { black } = colors;
+  const { gray } = colors;
+
   return (
-    <Pressable
-      marginBottom={isBottomMargin ? 'ls' : 'ss'}
-      disabled={!onPress}
-      borderColor={hasError ? 'red' : 'border'}
-      borderWidth={isCountry ? 1 : 0}
-      borderRadius={isCountry ? 10 : 10}
-      backgroundColor={isCountry ? 'primary' : 'white'}
-      onPress={DeviceHelper.ios() ? undefined : onPress}
-      height={DeviceHelper.calculateHeightRatio(56)}>
-      <Box
-        borderColor={hasError ? 'red' : 'border'}
-        borderWidth={1}
+    <Box >
+      <Pressable
+        disabled={!onPress}
+        width="100%"
+        borderColor={hasError ? 'red' : 'gray5'}
+        marginBottom={isBottomMargin ? 'ls' : 'ss'}
+        borderWidth={2}
         borderRadius={10}
-        paddingHorizontal={'r'}
-        backgroundColor={'white'}
-        maxHeight={200}
-        height={DeviceHelper.calculateHeightRatio(isHeight ? height : 55)}>
+        flexDirection="row"
+        alignItems="center"
+        backgroundColor="white"
+        onPress={DeviceHelper.ios() ? undefined : onPress}
+        overflow="hidden"
+        paddingVertical={multiline ? 'r' : 'none'}
+        height={DeviceHelper.calculateHeightRatio(height ?? 55)}
+      >
         {leftComponent}
         <TextInput
-          editable={!onPress}
+          editable={!onPress && !disable}
           onTouchEnd={onPress}
           maxLength={maxLength}
           style={{
@@ -109,8 +111,9 @@ export const Input: React.FC<Input> = (props: Input) => {
             height: '100%',
             paddingTop: multiline ? 16 : 0,
             paddingStart: leftComponent ? 0 : 16,
+            marginTop:multiline ? 10 : 0,
             color: black,
-            paddingVertical: 0,
+            paddingVertical: multiline ? 16 : 0,
             textAlignVertical: multiline ? 'top' : 'center',
           }}
           {...textInputProps}
@@ -120,21 +123,20 @@ export const Input: React.FC<Input> = (props: Input) => {
           placeholder={placeholder}
           placeholderTextColor={gray}
         />
+        {rightComponent && rightComponent}
+        {onPress && (
+          <Image
+            source={Images.downArrow}
+            resizeMode="stretch"
+            marginRight="r"
+            width={DeviceHelper.calculateWidthRatio(10)}
+            height={DeviceHelper.calculateWidthRatio(6)}
+          />
+        )}
+      </Pressable>
+      <Box alignSelf="flex-end">
+        <FieldError {...fieldErrorProps} />
       </Box>
-      {isCountry ? (
-        <Box
-          height={20}
-          marginHorizontal={'sr'}
-          borderColor={hasError ? 'red' : 'border'}>
-          <Text
-            fontSize={12}
-            fontFamily={fonts.bold}
-            color={'white'}
-            marginStart={'es'}>
-            {countryName}
-          </Text>
-        </Box>
-      ) : null}
-    </Pressable>
+    </Box>
   );
 };

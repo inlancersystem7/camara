@@ -4,6 +4,7 @@ import schema from './schema';
 import migrations from "@/WaterMelon/migrations";
 import Categories from "@/WaterMelon/Model/Categories";
 import Photos from "@/WaterMelon/Model/Photos";
+import Client from "@/WaterMelon/Model/Client";
 
 const adapter = new SQLiteAdapter({
 	dbName: 'Camara',
@@ -26,6 +27,7 @@ const database = new Database({
 	modelClasses: [
 		Categories,
 		Photos,
+		Client,
 	],
 	// actionsEnabled: true,
 });

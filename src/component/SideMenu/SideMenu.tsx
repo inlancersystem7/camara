@@ -48,6 +48,13 @@ export class SideMenu extends React.Component<SideMenuProps, any> {
           },
         },
         {
+          title: 'Categories',
+          onPress: () => {
+            this.hideModal();
+            this.props.navigation.navigate(Routes.Category);
+          },
+        },
+        {
           title: 'Camara',
           onPress: () => {
             this.hideModal();
@@ -59,13 +66,6 @@ export class SideMenu extends React.Component<SideMenuProps, any> {
           onPress: () => {
             this.hideModal();
             this.props.navigation.navigate(Routes.Home);
-          },
-        },
-        {
-          title: 'Take Backup',
-          onPress: () => {
-            this.hideModal();
-            // this.props.navigation.navigate(Routes.GoogleDrive);
           },
         },
       ],

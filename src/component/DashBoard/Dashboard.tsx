@@ -11,16 +11,7 @@ import { Photos } from "@/component/DashBoard/Photos";
 export const Dashboard: React.FC = () => {
 
   const [category, setCategory] = useState([])
-  useEffect( () => {
-    callFactory();
-  }, []);
 
-  const callFactory = async () => {
-    const data = dbCategories.getCategoriesData();
-    console.log("datass",await data);
-    // return data;
-    setCategory(await data);
-  }
 
   const data = [1,2,3,4,5,4,5,6,7,8,8,9,4];
   return (

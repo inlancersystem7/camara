@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Image } from "@/component/Image";
@@ -8,6 +8,9 @@ import { Pressable } from "@/component";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { stackParamList } from "@/navigation/AppNavigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategoriesList } from "@/redux/actions/categoriesAction";
+import { getClientList } from "@/redux/actions/clientAction";
 
 const data = [
   { label: 'Item 1', value: '1', search: 'Item 1' },
@@ -31,17 +34,19 @@ export const ClientCategoryDropdown : React.FC<CameraComponentProps> = ({value,c
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const [isClientFocus, setIsClientFocus] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+  const dispatch = useDispatch();
 
-  const renderLabel = () => {
-    // if (value || isFocus) {
-      return (
-        <Text style={[styles.label]}>
-          Dropdown label
-        </Text>
-      );
-    // }
-    // return null;
+  const callFactory = async () => {
+    dispatch(getCategoriesList([]));
+    dispatch(getClientList([]));
   };
+
+  useEffect(() => {
+    callFactory();
+  }, []);
+
+  const categoryList = useSelector((state: any) => state.categoriesReducers.categoryList);
+  const clientList = useSelector((state: any) => state.clientReducer.clientList);
 
   const renderClientDropdown = () => {
     return(
@@ -53,21 +58,20 @@ export const ClientCategoryDropdown : React.FC<CameraComponentProps> = ({value,c
            selectedTextStyle={styles.selectedTextStyle}
            inputSearchStyle={styles.inputSearchStyle}
            iconStyle={styles.iconStyle}
-           data={data}
+           data={clientList}
            search
            maxHeight={300}
            minHeight={100}
-           labelField="label"
-           valueField="value"
-           searchField="search"
+           labelField="clientName"
+           valueField="id"
+           searchField="clientName"
            placeholder={!isClientFocus ? 'Select Client' : '...'}
            searchPlaceholder="Search..."
            value={clientValue}
            onFocus={() => setIsClientFocus(true)}
            onBlur={() => setIsClientFocus(false)}
            onChange={(item) => {
-             console.log("cll",item);
-             onClientChange(item.value)
+             onClientChange(item.id)
              // setClientValue(item.value);
              setIsClientFocus(false);
            }}
@@ -86,22 +90,21 @@ export const ClientCategoryDropdown : React.FC<CameraComponentProps> = ({value,c
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={data}
+          data={categoryList}
           search
           maxHeight={300}
           minHeight={100}
-          labelField="label"
-          valueField="value"
-          searchField="search"
+          labelField="name"
+          valueField="id"
+          searchField="name"
           placeholder={!isFocus ? 'Select Category' : '...'}
           searchPlaceholder="Search..."
           value={value}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            console.log("cett",item);
-            onCategoryChange(item.value)
-            // setValue(item.value);
+            // console.log("cett",item);
+            onCategoryChange(item.id)
             setIsFocus(false);
           }}
         />

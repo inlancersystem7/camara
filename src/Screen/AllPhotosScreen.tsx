@@ -2,7 +2,7 @@ import { Photo } from "@/Model/Photos";
 import React from "react";
 import { Box } from "@/component";
 import { Header } from "@/component/Header/Header";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { stackParamList } from "@/navigation/AppNavigation";
@@ -16,12 +16,15 @@ export interface AllPhotosScreenProps {
 const AllPhotosScreen: React.FC<AllPhotosScreenProps> = ({photosList}:AllPhotosScreenProps) => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
 
+  const photoList = useSelector((state: any) => state.photosReducers.photosList);
+  console.log("photoListtt==>",photoList);
+
   const data = [1,2,3,4,5,4,5,6,7,8,8,9,4,3,3,4,3,2,1,1,3,4,2,1,1,3,4,2];
   return (
     <Box flex={1}>
       <Header onBackPress={goBack} label={"photos"}/>
       <FlatList
-        data={data}
+        data={photoList}
         numColumns={3}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.name}
@@ -40,7 +43,7 @@ const AllPhotosScreen: React.FC<AllPhotosScreenProps> = ({photosList}:AllPhotosS
 
 const mapStateToProps = (state: any) => {
   return {
-
+    photos: state.photosReducers?.photosList || [],
   };
 };
 

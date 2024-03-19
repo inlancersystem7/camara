@@ -4,9 +4,14 @@ import { Text } from "@/component";
 import { Image } from "@/component/Image";
 import { Images } from "@/assets";
 import { fonts } from "@/style";
+import { Client } from "@/Model/Client";
+import { DeviceHelper } from "@/helper/DeviceHelper";
 
+export interface UserDetailProps {
+  client: Client;
+}
 
-export const UserDetail: React.FC = () => {
+export const UserDetail: React.FC<UserDetailProps> = ({client}:UserDetailProps) => {
   return (
     <Box>
       <Box flexDirection={"row"} alignItems={"center"}>
@@ -26,6 +31,22 @@ export const UserDetail: React.FC = () => {
             resizeMode="cover"
             borderRadius={45}
             height={90}/>
+          {client.clientProfile ? (
+            <Image
+              source={Images.food2}
+              width={90}
+              resizeMode="cover"
+              borderRadius={45}
+              height={90}/>
+          ):(
+            <Image
+              position={"absolute"}
+              source={Images.placeholder}
+              width={90}
+              resizeMode="cover"
+              borderRadius={45}
+              height={90}/>
+          )}
         </Box>
         <Box marginLeft={"l"}>
           <Text
@@ -43,19 +64,19 @@ export const UserDetail: React.FC = () => {
           color={"fontBlack2"}
           fontFamily={fonts.medium}
           fontSize={14}>
-          {'Name@nbnojmcdmkmc'}
+          {client.clientName}
         </Text>
         <Text
           color={"fontBlack2"}
           fontFamily={fonts.regular}
           fontSize={14}>
-          {'Detail'}
+          {client.clientBio}
         </Text>
         <Text
           color={"fontBlue2"}
           fontFamily={fonts.medium}
           fontSize={14}>
-          {"0987654321"}
+          {client.clientNumber}
         </Text>
       </Box>
     </Box>

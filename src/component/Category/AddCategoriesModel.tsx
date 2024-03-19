@@ -71,15 +71,17 @@ export const AddCategoriesModel: React.FC<AddCategoriesModelProps> = (
           backgroundColor="white"
           width="100%"
         >
-          <Text marginBottom="r" marginTop="s" color={"primary"} fontSize={18} textAlign={'center'}>
+          <Text marginBottom="r" marginTop="s" color={"black"} fontSize={18} textAlign={'center'}>
             {'Add Categories'}
           </Text>
-          <Input
-            placeholder={'Add Categories'}
-            keyboardType={'default'}
-            value={name}
-            onChangeText={(text)=>setName(text)}
-          />
+          <Box marginBottom={"m"}>
+            <Input
+              placeholder={'Add Categories'}
+              keyboardType={'default'}
+              value={name}
+              onChangeText={(text)=>setName(text)}
+            />
+          </Box>
           <Box marginTop={"mS"}>
             <Button onPress={handleOnAddPress} label={"Add"}/>
           </Box>

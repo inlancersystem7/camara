@@ -22,7 +22,7 @@ export const AddPhotos: React.FC = () => {
       bottom={-60}
       elevation={10}
       // borderWidth={2}
-      borderColor={"pink"}
+      borderColor={"gray"}
       // borderRadius={DeviceHelper.calculateHeightRatio(100)}
       // height={DeviceHelper.calculateHeightRatio(220)}
       // width={DeviceHelper.calculateWidthRatio(200)}
@@ -30,7 +30,7 @@ export const AddPhotos: React.FC = () => {
       width={120}
       borderRadius={60}
       // transform= {{ scaleX: 2 }}
-      backgroundColor={"pink5"}
+      backgroundColor={"border"}
       shadowColor={'gray4'}
       shadowOffset= { {width: 0, height: 2} }
       shadowOpacity={0.8}

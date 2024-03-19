@@ -9,6 +9,7 @@ export function * newCategories(action){
   } =action
   const response = yield call(dbCategories.saveCategories,{data});
   console.log("response ==>", response);
+  yield call(categoriesList);
 }
 
 export function * categoriesList(action) {

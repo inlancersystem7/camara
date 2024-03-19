@@ -1,11 +1,11 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import {
   CommonActions,
   createNavigationContainerRef,
   NavigationContainer,
   StackActions,
-} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+} from "@react-navigation/native";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { SplashScreen } from "@/Screen/SplashScreen";
 import HomeScreen from "@/Screen/HomeScreen";
@@ -15,6 +15,9 @@ import NotesScreen from "@/Screen/NotesScreen";
 import DashboardScreen from "@/Screen/DashboardScreen";
 import ClientScreen from "@/Screen/ClientScreen";
 import AllPhotosScreen from "@/Screen/AllPhotosScreen";
+import ClientDetailScreen from "@/Screen/ClientDetailScreen";
+import CategoryScreen from "@/Screen/CategoryScreen";
+import { Client } from "@/Model/Client";
 
 export type stackParamList = {
   SplashScreen: undefined;
@@ -23,6 +26,8 @@ export type stackParamList = {
   DashboardScreen:undefined;
   ClientScreen:undefined;
   AllPhotosScreen:undefined;
+  ClientDetailScreen:{detail: Client};
+  CategoryScreen:undefined;
 };
 
 const navigationRef = createNavigationContainerRef<stackParamList>();
@@ -35,10 +40,12 @@ export enum Routes {
   Notes = 'NotesScreen',
   Client = 'ClientScreen',
   AllPhotos = 'AllPhotosScreen',
+  ClientDetail = 'ClientDetailScreen',
+  Category = 'CategoryScreen',
 }
 interface NavigationProps {
   screenName: Routes;
-  params?: any;s
+  params?: any;
 }
 
 export function navigate({screenName, params}: NavigationProps) {
@@ -78,26 +85,6 @@ export const safeNavigate = (route: Routes, params?: Record<string, any>) => {
   navigate({screenName: route, params: params});
 };
 
-// export const AppNavigation: React.FC = observer(() => {
-// useEffect(() => {
-//   pushNotificationHelper.init(safeNavigate);
-//   if (DeviceHelper.isAndroid()) {
-//     requestPermission();
-//   }
-//   return pushNotificationHelper.registerOnMessageListener();
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, []);
-//
-// const requestPermission = async () => {
-//   const checkPermission = await utils.checkNotificationPermission();
-//   if (checkPermission !== RESULTS.GRANTED) {
-//     const request = await utils.requestNotificationPermission();
-//     if (request !== RESULTS.GRANTED) {
-//       // permission not granted
-//     }
-//   }
-// };
-
 export interface AppNavigationProps {
   onRouteChange: (route: string) => void;
 }
@@ -122,6 +109,8 @@ export const AppNavigator: React.FC<AppNavigationProps> = observer(
           <Stack.Screen name={Routes.Notes} component={NotesScreen} />
           <Stack.Screen name={Routes.Client} component={ClientScreen} />
           <Stack.Screen name={Routes.AllPhotos} component={AllPhotosScreen} />
+          <Stack.Screen name={Routes.ClientDetail} component={ClientDetailScreen} />
+          <Stack.Screen name={Routes.Category} component={CategoryScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
