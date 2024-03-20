@@ -7,6 +7,7 @@ import RNFS from 'react-native-fs';
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { addPhotos } from "@/redux/actions/photosAction";
+// import { ImageManipulator } from 'expo-image-manipulator';
 
 export interface CameraComponentProps {
     category: string;
@@ -35,7 +36,8 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
             const json = {
                 key,
                 value: imageUrl,
-                category: 'Story',
+                category: category,
+                client: client,
             };
             // console.log("json",json);
             dispatch(addPhotos(json));
@@ -44,6 +46,7 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
             console.error('Failed to save image:', error);
         }
     };
+
 
     const takePicture = async () => {
         if (cameraRef.current) {
@@ -69,7 +72,7 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
                 );
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     await saveImageToGallery(data.uri)
-                    await saveImageToDatabase(data.base64)
+                    await saveImageToDatabase(data.uri)
                     return true;
                 } else {
                     console.log("Camera permission denied");

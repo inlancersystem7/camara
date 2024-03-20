@@ -8,6 +8,9 @@ export class Photo extends Entity<PhotosDto> {
   get photoCategory(): string {
     return this.dto.category ?? '';
   }
+  get photoClient(): string {
+    return this.dto.client ?? '';
+  }
   get photoValue(): string {
     return this.dto.value ?? '';
   }

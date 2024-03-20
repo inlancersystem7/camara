@@ -5,6 +5,7 @@ import { fonts } from "@/style";
 import { Client } from "@/Model/Client";
 import { getCategoriesList } from "@/redux/actions/categoriesAction";
 import { getClientList } from "@/redux/actions/clientAction";
+import moment from "moment";
 
 export interface CategoryListProps {
   client: Client;

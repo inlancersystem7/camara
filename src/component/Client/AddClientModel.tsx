@@ -153,10 +153,10 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
   console.log("imgV",getValues().user_profile);
   const handleOnAddPress = async () => {
     try {
-      console.log("name",getValues().user_name);
-      console.log("bio",getValues().user_bio);
-      console.log("con",getValues().user_contact);
-      console.log("img",getValues().user_profile);
+      console.log("name",getValues().clientName);
+      console.log("bio",getValues().clientBio);
+      console.log("con",getValues().clientNumber);
+      console.log("img",getValues().clientProfile);
       const key = 1;
       const allData = {
         clientName: getValues().clientName,

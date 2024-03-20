@@ -1,5 +1,9 @@
 import * as types from '../actions/actionTypes'
-import { GET_PHOTOS_BY_CATEGORY_SUCCESS } from "../actions/actionTypes";
+import {
+  GET_DASHBOARD_PHOTO_LIST,
+  GET_PHOTOS_BY_CATEGORY, GET_PHOTOS_BY_CATEGORY_AND_CLIENT, GET_PHOTOS_BY_CATEGORY_AND_CLIENT_SUCCESS,
+  GET_PHOTOS_BY_CATEGORY_SUCCESS,
+} from "../actions/actionTypes";
 
 export function addPhotos (data:any) {
   // console.log("actionData",data);
@@ -23,13 +27,38 @@ export function getPhotosFailed() {
   };
 }
 
-export function getPhotosListByCategory(response) {
-  console.log("ActionRes",response);
+export function getPhotosListByCategory(category) {
+  console.log("Vid=>",category);
+  return {
+    type: types.GET_PHOTOS_BY_CATEGORY,
+    category,
+  };
+}
+
+export function photosListByCategorySuccess(filteredData) {
   return {
     type: types.GET_PHOTOS_BY_CATEGORY_SUCCESS,
+    filteredData,
+  };
+}
+
+export function getDashboardPhotosList(response) {
+  return {
+    type: types.GET_DASHBOARD_PHOTO_LIST,
     response,
   };
 }
+
+export const getPhotosListByCategoryAndClient = (category, client) => ({
+  type: types.GET_PHOTOS_BY_CATEGORY_AND_CLIENT,
+  category,
+  client,
+});
+
+export const photosListByCategoryAndClientSuccess = (filteredData) => ({
+  type: types.GET_PHOTOS_BY_CATEGORY_AND_CLIENT_SUCCESS,
+  filteredData,
+});
 
 export function failGetPhotosListByCategory() {
   return {

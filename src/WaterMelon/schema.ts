@@ -16,6 +16,7 @@ export default appSchema({
 				{ name: 'key', type: 'string' },
 				{ name: 'value', type: 'string' },
 				{ name: 'category', type: 'string' },
+				{ name: 'client', type: 'string' },
 			],
 		}),
 		tableSchema({

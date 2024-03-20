@@ -10,6 +10,7 @@ const initialState = {
 
 export const clientReducer = createReducer(initialState, {
   [types.ADD_CLIENT](state) {
+    console.log("RedusSate", state);
     return {
       ...state,
       isLoading: false

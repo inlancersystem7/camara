@@ -22,6 +22,16 @@ const adapter = new SQLiteAdapter({
 	},
 });
 
+adapter._dispatcher._unsafeErrorListener = async (error) => {
+	if (
+		error &&
+		typeof error.message === 'string' &&
+		error.message.includes('database disk image is malformed')
+	) {
+		// ...
+	}
+}
+
 const database = new Database({
 	adapter,
 	modelClasses: [

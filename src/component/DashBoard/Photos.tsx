@@ -14,8 +14,8 @@ export const Photos: React.FC<PhotosProps> = ({photosList}:PhotosProps) => {
   return (
     <Box flex={1} margin={"ss"}>
       <Image
-        source={Images.img_worlds}
-        // source={{ uri: `data:image/jpeg;base64,${photosList.photoValue}` }}
+        source={photosList.value}
+        // source={{ uri: `data:image/jpeg;base64,${photosList.value}` }}
         resizeMode="cover"
         width={DeviceHelper.calculateWidthRatio(133)}
         height={DeviceHelper.calculateHeightRatio(140)}

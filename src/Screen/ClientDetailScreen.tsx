@@ -3,7 +3,7 @@ import { Box, Text } from "@/component";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { stackParamList } from "@/navigation/AppNavigation";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Screen } from "@/component/Screen";
 import { Header } from "@/component/Header/Header";
 import { UserDetail } from "@/component/Client/UserDetail";
@@ -12,27 +12,26 @@ import { CategoryView } from "@/component/DashBoard/CategoryView";
 import * as photosAction from "@/redux/actions/photosAction";
 import { Photos } from "@/component/DashBoard/Photos";
 import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
+import { getCategoriesList } from "@/redux/actions/categoriesAction";
 
 const ClientDetailScreen: React.FC = () => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const route = useRoute<RouteProp<stackParamList, 'ClientDetailScreen'>>();
   const {detail} = route.params;
+  const dispatch = useDispatch();
   console.log("clientDDD",detail);
+  const callFactory = async () => {
+    dispatch(getCategoriesList([]));
+    // dispatch(getDashboardPhotosList([]));
+  };
 
-  const [category, setCategory] = useState([])
-  useEffect( () => {
+  useEffect(() => {
     callFactory();
   }, []);
 
-  const callFactory = async () => {
-    const data = dbCategories.getCategoriesData();
-    console.log("datass",await data);
-    // return data;
-    setCategory(await data);
-  }
-  console.log("cCCC",category);
-
-  const data = [1,2,3,4,5,4,5,6,7,8,9,4];
+  const categoryList = useSelector((state: any) => state.categoriesReducers.categoryList);
+  const clientCategoryPhotosList = useSelector((state: any) => state.photosReducers.clientCategoryPhotosList);
+  console.log("clientCategoryPhotosList=>",clientCategoryPhotosList);
 
   return(
     <Screen>
@@ -43,13 +42,14 @@ const ClientDetailScreen: React.FC = () => {
           <CategoryView
             onCategorySelected={categories => {
               console.log("categories",categories);
+              dispatch(photosAction.getPhotosListByCategoryAndClient(categories?.id, detail.id));
             }}
-            categoryListItems={category}/>
+            categoryListItems={categoryList}/>
         </ScrollView>
       </Box>
       <Box>
         <FlatList
-          data={data}
+          data={clientCategoryPhotosList}
           numColumns={3}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.name}

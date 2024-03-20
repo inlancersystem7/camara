@@ -10,4 +10,6 @@ export default class Photos extends Model {
   value!: string;
   @text('category')
   category!: string;
+  @text('client')
+  client!: string;
 }

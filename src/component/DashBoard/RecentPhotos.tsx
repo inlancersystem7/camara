@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import { Box, Pressable, Text } from "@/component";
 import { fonts } from "@/style";
 import { FlatList, ScrollView } from "react-native";
 import { Images } from "@/assets";
 import { Image } from "@/component/Image";
 import { DeviceHelper } from "@/helper/DeviceHelper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { navigate, Routes } from "@/navigation/AppNavigation";
 import { Photos } from "@/component/DashBoard/Photos";
+import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
+import { dbPhotos } from "@/WaterMelon/DBHelper/DBPhotos";
+import { getCategoriesList } from "@/redux/actions/categoriesAction";
+import { getDashboardPhotosList } from "@/redux/actions/photosAction";
+import { photosReducers } from "@/redux/reducers/photosReducers";
 
 
 export interface RecentPhotosProps {
@@ -17,16 +22,25 @@ export interface RecentPhotosProps {
 
 export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosProps) => {
 
-  const photoList = useSelector((state: any) => state.photosReducers.photosList);
-  console.log("photoList=>",photoList);
+  const dispatch = useDispatch();
 
-  const data = [1,2,3,4,5,6,7];
+  const callFactory = async () => {
+    dispatch(getDashboardPhotosList([]));
+  };
+
+  useEffect(() => {
+    callFactory();
+  }, []);
+
+  const photosList = useSelector((state: any) => state.photosReducers.dashboardPhotosList);
+  console.log("DasphotosListtt=>",photosList.length);
 
   const handleOnMorePress = () => {
     navigate({
       screenName: Routes.AllPhotos,
     });
   }
+  console.log("resent",photosList.length);
 
   return (
     <Box marginTop={"s"}>
@@ -39,7 +53,7 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
         {label}
       </Text>
       <Box flexDirection={"row"} marginTop={"s"} marginLeft={"s"} width={'100%'} flexWrap={"wrap"}>
-          {data.map((item,index) => {
+          {photosList.map((item,index) => {
             // console.log("item",item);
             return(
             <Box
@@ -50,13 +64,15 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
               width={DeviceHelper.calculateWidthRatio(95)}
               margin={"ss"}>
               <Image
-                source={Images.food2}
+                source={{ uri: `data:image/jpeg;base64,${item.value}` }}
+                // source={Images.food2}
                 width={DeviceHelper.calculateWidthRatio(90)}
                 resizeMode="cover"
                 borderRadius={6}
                 height={DeviceHelper.calculateHeightRatio(95)}/>
             </Box>
           )})}
+        {photosList.length > 7 && (
         <Pressable
           marginTop={"s"}
           onPress={handleOnMorePress}
@@ -71,6 +87,7 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
           <Text fontSize={12} fontFamily={fonts.medium} color={"black"}>view</Text>
           <Text fontSize={12} fontFamily={fonts.medium} color={"black"}>more</Text>
         </Pressable>
+        )}
       </Box>
     </Box>
   );

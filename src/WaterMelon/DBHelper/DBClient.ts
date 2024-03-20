@@ -13,6 +13,8 @@ class DBClient {
     console.log("favourite",favourite);
     await database.write(async () =>
       database.get<Photos>('Client').create((favouriteObj) => {
+        console.log("favourite.key",favourite.data.key );
+        console.log("favourite.value",favourite.data.value );
         favouriteObj.key = favourite.data.key ?? '';
         favouriteObj.value = favourite.data.value ?? '';
       }));

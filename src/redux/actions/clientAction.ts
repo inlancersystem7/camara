@@ -2,10 +2,10 @@ import * as types from '../actions/actionTypes'
 import { ADD_CLIENT, GET_DASHBOARD_CLIENT_LIST, GET_PHOTOS_BY_CATEGORY_SUCCESS } from "../actions/actionTypes";
 
 export function addClient (data:any) {
-  // console.log("actionData",data);
+  console.log("actionCData",data);
   return {
     type: types.ADD_CLIENT,
-    data
+    data,
   };
 }
 

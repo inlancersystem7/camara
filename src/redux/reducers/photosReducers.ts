@@ -5,6 +5,9 @@ import * as types from '../actions/actionTypes'
 const initialState = {
   isLoading:false,
   photosList: [],
+  dashboardPhotosList: [],
+  categoryPhotosList: [],
+  clientCategoryPhotosList: [],
 };
 
 export const photosReducers = createReducer(initialState, {
@@ -18,7 +21,7 @@ export const photosReducers = createReducer(initialState, {
     // console.log("actionPhoto->",action);
     return {
       ...state,
-      // photosList: Object.values(action.response),
+      photosList: Object.values(action.response),
     };
   },
   [types.GET_PHOTOS_BY_CATEGORY](state) {
@@ -29,7 +32,26 @@ export const photosReducers = createReducer(initialState, {
   [types.GET_PHOTOS_BY_CATEGORY_SUCCESS](state, action) {
     return {
       ...state,
-      photosList: Object.values(action.response),
+      categoryPhotosList: Object.values(action.filteredData),
+    };
+  },
+  [types.GET_DASHBOARD_PHOTO_LIST](state, action) {
+    return {
+      ...state,
+      dashboardPhotosList: Object.values(action.response),
+    };
+  },
+  [types.GET_PHOTOS_BY_CATEGORY_AND_CLIENT](state) {
+    return {
+      ...state,
+    };
+  },
+  [types.GET_PHOTOS_BY_CATEGORY_AND_CLIENT_SUCCESS](state, action) {
+    // console.log("Reducer Rescponce",Object.values(action.filteredData));
+    console.log("Reducer Sum",action.sum);
+    return {
+      ...state,
+      clientCategoryPhotosList: Object.values(action.filteredData),
     };
   },
 });

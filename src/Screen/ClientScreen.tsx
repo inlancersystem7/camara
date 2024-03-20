@@ -10,15 +10,17 @@ import { ClientView } from "@/component/Client/ClientView";
 import { Pressable, Text } from "@/component";
 import { fonts } from "@/style";
 import { AddClientModel } from "@/component/Client/AddClientModel";
-import { clientReducer } from "@/redux/reducers/clientReducer";
 import { getClientList } from "@/redux/actions/clientAction";
-import { ClientDto } from "@/Dtos/ClientDto";
 import { Client } from "@/Model/Client";
+import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
+import { dbClient } from "@/WaterMelon/DBHelper/DBClient";
 
 const ClientScreen: React.FC = () => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const [isClient, setIsClient] = useState(false);
   const dispatch = useDispatch();
+
+
 
   const handleOnDetailPress = (selectedItem : Client) => {
     navigate({
@@ -31,6 +33,8 @@ const ClientScreen: React.FC = () => {
 
   const callFactory = async () => {
     dispatch(getClientList([]));
+    const data = dbClient.getClientData();
+    console.log("Cdatass",await data);
   };
 
   useEffect(() => {
@@ -54,6 +58,7 @@ const ClientScreen: React.FC = () => {
         label={'Client'}/>
       <ScrollView showsVerticalScrollIndicator={false}>
         {clientList?.map((item, index) => {
+          console.log("item=>",item);
           return(
             <ClientView client={item} onDetailPress={() => handleOnDetailPress(item)}/>
           )

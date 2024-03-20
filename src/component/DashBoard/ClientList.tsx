@@ -36,7 +36,9 @@ export const ClientList: React.FC = () => {
 
   return (
     <Box marginTop={"r"}>
+      {clientList.length > 0 && (
       <Text marginLeft={"r"} fontSize={14} color={"black"} fontFamily={fonts.semiBold}>{'Clients'}</Text>
+      )}
       <Box flexDirection={"row"} marginTop={"s"} marginLeft={"s"} width={'100%'} flexWrap={"wrap"}>
         {clientList.map((item,index) => {
           // console.log("item",item);
@@ -69,7 +71,7 @@ export const ClientList: React.FC = () => {
               <Text textAlign={"center"} fontFamily={fonts.regular} color={"black2"}>{item?.clientName}</Text>
             </Box>
           )})}
-        {clientList.length > 4 && (
+        {clientList.length > 6 && (
           <Pressable
             marginTop={"s"}
             marginLeft={"s"}

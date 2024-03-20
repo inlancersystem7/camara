@@ -1,33 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box } from "@/component/Box";
 import { RecentPhotos } from "@/component/DashBoard/RecentPhotos";
 import { ClientList } from "@/component/DashBoard/ClientList";
 import { CategoryView } from "@/component/DashBoard/CategoryView";
-import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
-import { FlatList } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 import { Photos } from "@/component/DashBoard/Photos";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategoriesList } from "@/redux/actions/categoriesAction";
+import * as photosAction from "@/redux/actions/photosAction";
+import { getDashboardPhotosList } from "@/redux/actions/photosAction";
+import { Category } from "@/Model/Category";
 
 
 export const Dashboard: React.FC = () => {
+  const [selectedCategoryForDashboard, setSelectedCategoryForDashboard] =
+    useState<Category | null>(null);
 
-  const [category, setCategory] = useState([])
 
+  const dispatch = useDispatch();
 
-  const data = [1,2,3,4,5,4,5,6,7,8,8,9,4];
+  const callFactory = async () => {
+    dispatch(getCategoriesList([]));
+    // dispatch(getDashboardPhotosList([]));
+  };
+
+  useEffect(() => {
+    callFactory();
+  }, []);
+
+  const categoryList = useSelector((state: any) => state.categoriesReducers.categoryList);
+  const categoryPhotosList = useSelector((state: any) => state.photosReducers.categoryPhotosList);
+  console.log("categoryListt=>",categoryPhotosList);
+  useMemo(() => {
+    const firstCategoryData = categoryList?.length > 0 ? categoryList[0] : null;
+    console.log("firstCategoryData=>",firstCategoryData?.id);
+    setSelectedCategoryForDashboard(firstCategoryData);
+    dispatch(photosAction.getPhotosListByCategory(firstCategoryData?.id));
+  }, []);
+
   return (
       <Box flex={1}>
         <RecentPhotos label={'Resent Photos'}/>
         <ClientList/>
         <Box marginTop={"r"}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <CategoryView
             onCategorySelected={categories => {
-              console.log("categories",categories);
+              console.log("categories",categories.id);
+              setSelectedCategoryForDashboard(categories);
+              dispatch(photosAction.getPhotosListByCategory(categories?.id));
             }}
-            categoryListItems={category}/>
+            categoryListItems={categoryList}/>
+          </ScrollView>
         </Box>
         <Box>
           <FlatList
-            data={data}
+            data={categoryPhotosList}
             numColumns={3}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.name}
