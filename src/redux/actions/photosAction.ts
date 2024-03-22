@@ -1,5 +1,6 @@
 import * as types from '../actions/actionTypes'
 import {
+  DELETE_PHOTOS,
   GET_DASHBOARD_PHOTO_LIST,
   GET_PHOTOS_BY_CATEGORY, GET_PHOTOS_BY_CATEGORY_AND_CLIENT, GET_PHOTOS_BY_CATEGORY_AND_CLIENT_SUCCESS,
   GET_PHOTOS_BY_CATEGORY_SUCCESS,
@@ -10,6 +11,13 @@ export function addPhotos (data:any) {
   return {
     type: types.ADD_PHOTOS,
     data
+  };
+}
+
+export function deletePhotos (id:any) {
+  return {
+    type: types.DELETE_PHOTOS,
+    id,
   };
 }
 

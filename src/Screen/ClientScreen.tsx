@@ -10,7 +10,7 @@ import { ClientView } from "@/component/Client/ClientView";
 import { Pressable, Text } from "@/component";
 import { fonts } from "@/style";
 import { AddClientModel } from "@/component/Client/AddClientModel";
-import { getClientList } from "@/redux/actions/clientAction";
+import { deleteClient, getClientList } from "@/redux/actions/clientAction";
 import { Client } from "@/Model/Client";
 import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
 import { dbClient } from "@/WaterMelon/DBHelper/DBClient";
@@ -45,8 +45,8 @@ const ClientScreen: React.FC = () => {
 
   const handleOnPressDelete = async (id:string) => {
     try {
-      await dbClient.deleteClientRecord(id);
-      await callFactory();
+      dispatch(deleteClient(id));
+      // await callFactory();
     } catch (error) {
       console.error('Error deleting data: ', error);
     }
@@ -62,8 +62,6 @@ const ClientScreen: React.FC = () => {
     setIsVisible(false);
     setIsDelete(false);
   };
-
-
 
   const handleOnDetailPress = (selectedItem : Client) => {
     navigate({

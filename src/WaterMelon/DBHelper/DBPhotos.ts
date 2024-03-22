@@ -86,6 +86,21 @@ class DBPhotos {
     }
   }
 
+  async deletePhotos(id) {
+    console.log('id=>',id);
+    try {
+      await database.write(async () => {
+        const record = await database.get('Photos').find(id);
+        await record.destroyPermanently();
+        console.log('Record deleted successfully');
+        await database.get('Photos').query().fetch();
+      });
+    } catch (error) {
+      console.error('Error deleting record:', error);
+      throw error;
+    }
+  }
+
 }
 
 export const dbPhotos = new DBPhotos();

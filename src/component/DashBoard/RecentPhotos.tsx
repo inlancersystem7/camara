@@ -73,7 +73,7 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
                 height={DeviceHelper.calculateHeightRatio(95)}/>
             </Box>
           )})}
-        {photosList.length > 6 && (
+        {photosList.length > 2 && (
         <Pressable
           marginTop={"s"}
           onPress={handleOnMorePress}

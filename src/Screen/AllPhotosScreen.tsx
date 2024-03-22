@@ -5,11 +5,13 @@ import { Header } from "@/component/Header/Header";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { stackParamList } from "@/navigation/AppNavigation";
+import { navigate, Routes, stackParamList } from "@/navigation/AppNavigation";
 import { FlatList } from "react-native";
 import { Photos } from "@/component/DashBoard/Photos";
-import { getPhotosList } from "@/redux/actions/photosAction";
+import { deletePhotos, getPhotosList } from "@/redux/actions/photosAction";
 import moment from "moment";
+import { Screen } from "@/component/Screen";
+import { DeletePhotosModel } from "@/component/Photos/DeletePhotoModel";
 
 export interface AllPhotosScreenProps {
   photosList: Photo;
@@ -18,12 +20,11 @@ export interface AllPhotosScreenProps {
 const AllPhotosScreen: React.FC<AllPhotosScreenProps> = ({photosList}:AllPhotosScreenProps) => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const dispatch = useDispatch();
-  // const [photoList, setPhotoList] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
 
   const callFactory = async () => {
     dispatch(getPhotosList([]));
-    // const photosData =  dbPhotos.getPhotosData();
-    // setPhotoList(await photosData)
   };
 
   useEffect(() => {
@@ -32,8 +33,24 @@ const AllPhotosScreen: React.FC<AllPhotosScreenProps> = ({photosList}:AllPhotosS
   const photoList = useSelector((state: any) => state.photosReducers.photosList);
   console.log("AllphotoListtt==>",photoList.length);
 
+  const handleOnDeletePress = async () => {
+    console.log("idd",selectedId);
+    try {
+      dispatch(deletePhotos(selectedId));
+      // await dbPhotos.deletePhotos(selectedId);
+      setIsVisible(false);
+    }
+    catch (error) {
+      console.error('Error saving data: ', error);
+    }
+  }
+
+  const handelImagePress = (index: number) => {
+    navigate({ screenName: Routes.ImageView, params: { index } });
+  };
+
   return (
-    <Box flex={1}>
+    <Screen flex={1}>
       <Header onBackPress={goBack} label={"photos"}/>
       <FlatList
         data={photoList}
@@ -43,13 +60,23 @@ const AllPhotosScreen: React.FC<AllPhotosScreenProps> = ({photosList}:AllPhotosS
         renderItem={({ item, index }) => {
           return(
             <Box key={`${item.id}_${moment()}`} >
-            <Photos photosList={item}/>
+            <Photos
+              onLongPress={() => {
+                setSelectedId(item.id)
+                setIsVisible(true);
+              }}
+              onImgPress={() => handelImagePress(index)}
+              photosList={item}/>
             </Box>
           )
         }}
         onEndReachedThreshold={0.1}
       />
-    </Box>
+      <DeletePhotosModel
+        isVisible={isVisible}
+        onDeletePress={handleOnDeletePress}
+        onClose={()=>setIsVisible(false)}/>
+    </Screen>
   )
 }
 

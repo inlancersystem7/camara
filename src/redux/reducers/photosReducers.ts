@@ -17,6 +17,12 @@ export const photosReducers = createReducer(initialState, {
       isLoading: false
     };
   },
+  [types.DELETE_PHOTOS](state) {
+    return {
+      ...state,
+      isLoading: false
+    };
+  },
   [types.GET_PHOTOS](state, action) {
     // console.log("actionPhoto->",action);
     return {

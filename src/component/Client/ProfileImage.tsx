@@ -12,7 +12,7 @@ export interface LogoImageProps extends FieldErrorProps {
 
 export const ProfileImage: React.FC<LogoImageProps> = (props: LogoImageProps) => {
 	const { label, logoImage, openPlaceImagePicker } = props;
-	console.log("logoImg==>",logoImage);
+	// console.log("logoImg==>",logoImage);
 	const fieldErrorProps = props as FieldErrorProps;
 	return (
 		<Box marginHorizontal="r" justifyContent="center" alignItems="center" borderRadius={10}>

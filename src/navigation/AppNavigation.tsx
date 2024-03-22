@@ -18,6 +18,7 @@ import ClientDetailScreen from "@/Screen/ClientDetailScreen";
 import CategoryScreen from "@/Screen/CategoryScreen";
 import AllPhotosScreen from "@/Screen/AllPhotosScreen";
 import { Client } from "@/Model/Client";
+import { ImageViewScreen } from "@/Screen/ImageViewScreen";
 // import { AllPhotosScreen } from "@/Screen/AllPhotosScreen";
 
 export type stackParamList = {
@@ -29,6 +30,7 @@ export type stackParamList = {
   AllPhotosScreen:undefined;
   ClientDetailScreen:{detail: Client};
   CategoryScreen:undefined;
+  ImageViewScreen: { index: number };
 };
 
 const navigationRef = createNavigationContainerRef<stackParamList>();
@@ -43,6 +45,7 @@ export enum Routes {
   AllPhotos = 'AllPhotosScreen',
   ClientDetail = 'ClientDetailScreen',
   Category = 'CategoryScreen',
+  ImageView = 'ImageViewScreen',
 }
 interface NavigationProps {
   screenName: Routes;
@@ -112,6 +115,7 @@ export const AppNavigator: React.FC<AppNavigationProps> = observer(
           <Stack.Screen name={Routes.AllPhotos} component={AllPhotosScreen} />
           <Stack.Screen name={Routes.ClientDetail} component={ClientDetailScreen} />
           <Stack.Screen name={Routes.Category} component={CategoryScreen} />
+          <Stack.Screen name={Routes.ImageView} component={ImageViewScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

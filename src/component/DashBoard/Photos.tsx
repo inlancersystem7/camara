@@ -4,15 +4,22 @@ import { Image } from "@/component/Image";
 import { Images } from "@/assets";
 import { DeviceHelper } from "@/helper/DeviceHelper";
 import { Photo } from "@/Model/Photos";
+import { Pressable } from "@/component";
+import { Category } from "@/Model/Category";
 
 export interface PhotosProps {
   photosList: Photo;
+  onLongPress?: () => void;
+  onImgPress?: () => void;
 }
 
-export const Photos: React.FC<PhotosProps> = ({photosList}:PhotosProps) => {
+export const Photos: React.FC<PhotosProps> = ({photosList,onImgPress,onLongPress}:PhotosProps) => {
   // console.log("photoListtt=>",photosList.value);
   return (
-    <Box flex={1} margin={"ss"}>
+    <Pressable
+      onPress={onImgPress}
+      onLongPress={onLongPress}
+      flex={1} margin={"ss"}>
       <Image
         // source={photosList.value}
         source={{ uri: `data:image/jpeg;base64,${photosList.value}` }}
@@ -20,6 +27,6 @@ export const Photos: React.FC<PhotosProps> = ({photosList}:PhotosProps) => {
         width={DeviceHelper.calculateWidthRatio(133)}
         height={DeviceHelper.calculateHeightRatio(140)}
       />
-    </Box>
+    </Pressable>
 );
 };

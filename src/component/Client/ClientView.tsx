@@ -42,11 +42,11 @@ export const ClientView: React.FC<ClientViewProps> = ({client,onDetailPress,onDo
 
       {client.clientProfile ? (
         <Image
-          source={Images.food2}
+          source={{ uri: `data:image/png;base64,${client.clientProfile}` }}
           width={DeviceHelper.calculateWidthRatio(70)}
           resizeMode="cover"
           borderRadius={DeviceHelper.calculateHeightRatio(60)}
-          height={DeviceHelper.calculateHeightRatio(80)}/>
+          height={DeviceHelper.calculateHeightRatio(70)}/>
       ):(
         <Image
           position={"absolute"}
@@ -54,7 +54,7 @@ export const ClientView: React.FC<ClientViewProps> = ({client,onDetailPress,onDo
           width={DeviceHelper.calculateWidthRatio(70)}
           resizeMode="cover"
           borderRadius={DeviceHelper.calculateHeightRatio(60)}
-          height={DeviceHelper.calculateHeightRatio(80)}/>
+          height={DeviceHelper.calculateHeightRatio(70)}/>
       )}
     </Box>
      <Box flex={1} marginLeft={"r"}>

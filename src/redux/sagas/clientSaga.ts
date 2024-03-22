@@ -18,10 +18,14 @@ export function * editClient(action){
   yield call(ClientList);
 }
 
+export function * deleteClient(action){
+  console.log("delete ation",action.id);
+  const response = yield call(dbClient.deleteClientRecord,action.id);
+  yield call(ClientList);
+}
+
 export function * ClientList(action) {
-  console.log("saga=>",action);
   const response = yield call(dbClient.getClientData);
-  console.log("sagaresponce=>",response);
   if (response) {
     yield put(clientAction.getClientList(response));
     if (action?.resolve) {

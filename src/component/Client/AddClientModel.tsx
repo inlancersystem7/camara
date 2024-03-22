@@ -128,7 +128,7 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
               if (response.assets && response.assets.length > 0) {
                 const newImages = response.assets[0].base64;
                 // const newImages = response.assets?.map((asset) => asset.base64);
-                setValue('user_profile', newImages);
+                setValue('clientProfile', newImages);
                 // setLogoImage([...logoImage, ...newImages]);
                 setImagePicker(false);
               }
@@ -138,7 +138,7 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
       } else {
         console.log('Camera permission denied');
       }
-      console.log('logo value ==>', getValues().logo);
+      // console.log('logo value ==>', getValues().logo);
     } catch (err) {
       console.warn(err);
     }
@@ -153,17 +153,17 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
       // selectionLimit: 5,
     }, (response) => {
       if (!response.didCancel) {
-        console.log("response",response);
+        // console.log("response",response);
         const newImage = response?.assets[0]?.base64;
-        console.log("newImage",newImage);
-        setValue('user_profile', newImage);
+        // console.log("newImage",newImage);
+        setValue('clientProfile', newImage);
         // setLogoImage(newImage);
         setImagePicker(false);
       }
     });
   };
 
-  console.log("imgV",getValues().user_profile);
+  // console.log("imgV",getValues().user_profile);
   const handleOnAddPress = async () => {
     try {
       console.log("name",getValues().clientName);
@@ -198,7 +198,8 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
       setValue('clientBio','')
       setValue('clientNumber','')
       setValue('clientProfile','')
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error saving data: ', error);
     }
   }
@@ -225,6 +226,7 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
                   control={control}
                   name={field.id}
                   defaultValue=""
+                  rules={{ require: field.isRequired }}
                   render={({ field: { value, onChange } }) => (
                     <>
                     {field.type === 'Image' && (
@@ -258,7 +260,7 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
               </Box>
             ))}
             <Box marginHorizontal={"r"} marginTop={"s"}>
-              <Button label={isEdit ? 'Edit' : 'Add'} onPress={handleOnAddPress}/>
+              <Button label={isEdit ? 'Edit' : 'Add'} onPress={handleSubmit(handleOnAddPress)}/>
             </Box>
             <CustomModal
               isVisible={imagePicker}

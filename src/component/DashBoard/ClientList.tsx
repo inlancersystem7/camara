@@ -52,11 +52,11 @@ export const ClientList: React.FC<ClientListProps> = ({onClientAdd,clientList}:C
 
                 {item.clientProfile ? (
                   <Image
-                    source={Images.food2}
+                    source={{ uri: `data:image/png;base64,${item.clientProfile}` }}
                     width={DeviceHelper.calculateWidthRatio(80)}
                     resizeMode="cover"
-                    borderRadius={DeviceHelper.calculateHeightRatio(70)}
-                    height={DeviceHelper.calculateHeightRatio(90)}/>
+                    borderRadius={DeviceHelper.calculateHeightRatio(60)}
+                    height={DeviceHelper.calculateHeightRatio(80)}/>
                 ):(
                   <Image
                     position={"absolute"}

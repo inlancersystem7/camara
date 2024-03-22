@@ -3,6 +3,8 @@ import { call, put } from "redux-saga/effects";
 import { showMessage } from "react-native-flash-message";
 import { dbPhotos } from "@/WaterMelon/DBHelper/DBPhotos";
 import * as photosAction from '../actions/photosAction';
+import { dbClient } from "@/WaterMelon/DBHelper/DBClient";
+import { ClientList } from "@/redux/sagas/clientSaga";
 
 
 export function * newPhoto(action){
@@ -10,6 +12,12 @@ export function * newPhoto(action){
     data
   } =action
   const response = yield call(dbPhotos.savePhotos,{data});
+  yield call(PhotoList);
+}
+
+export function * deletePhotos(action){
+  console.log("delete action",action.id);
+  const response = yield call(dbPhotos.deletePhotos,action.id);
   yield call(PhotoList);
 }
 

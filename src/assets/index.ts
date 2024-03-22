@@ -9,4 +9,5 @@ export const Images = {
   img_worlds: require('./pngs/img_worlds.png'),
   placeholder: require('./pngs/placeholder.png'),
   vertical_dots: require('./pngs/vertical_dots.png'),
+  x: require('./pngs/x.png'),
 };

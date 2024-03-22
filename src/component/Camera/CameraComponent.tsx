@@ -100,12 +100,7 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
                     }
                 );
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                    await saveImageToGallery(data.uri)
-                    // await localPath(data.uri);
-                    // const folderPath = await generateImageFolder();
-                    // console.log("base",data.base64);
-                    // const fileName = await saveImageToFolder(data.uri, folderPath);
-                    // console.log("foleName",fileName);
+                    // await saveImageToGallery(data.uri)
                     await saveImageToDatabase(data.base64)
                     return true;
                 } else {

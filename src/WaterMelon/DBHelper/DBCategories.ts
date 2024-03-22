@@ -57,7 +57,7 @@ class DBCategories {
         const record = await database.get('Categories').find(id);
         await record.destroyPermanently();
         console.log('Record deleted successfully');
-        await database.get('Client').query().fetch();
+        await database.get('Categories').query().fetch();
       });
     } catch (error) {
       console.error('Error deleting record:', error);

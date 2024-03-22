@@ -1,6 +1,6 @@
 import * as types from '../actions/actionTypes'
 import {
-  ADD_CLIENT,
+  ADD_CLIENT, DELETE_CLIENT,
   EDIT_CLIENT,
   GET_DASHBOARD_CLIENT_LIST,
   GET_PHOTOS_BY_CATEGORY_SUCCESS,
@@ -22,8 +22,14 @@ export function editClient (id:string , data:any) {
   };
 }
 
+export function deleteClient (id:string) {
+  return {
+    type: types.DELETE_CLIENT,
+    id
+  };
+}
+
 export function getClientList(response) {
-  console.log("actionRespose",response);
   return {
     type: types.GET_CLIENT_LIST,
     response,
