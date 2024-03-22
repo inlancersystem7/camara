@@ -12,25 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategoriesList } from "@/redux/actions/categoriesAction";
 import { getClientList } from "@/redux/actions/clientAction";
 
-const data = [
-  { label: 'Item 1', value: '1', search: 'Item 1' },
-  { label: 'Item 2', value: '2', search: 'Item 2' },
-  { label: 'Item 3', value: '3', search: 'Item 3' },
-  { label: 'Item 4', value: '4', search: 'Item 4' },
-  { label: 'Item 5', value: '5', search: 'Item 5' },
-  { label: 'Item 6', value: '6', search: 'Item 6' },
-  { label: 'Item 7', value: '7', search: 'Item 7' },
-  { label: 'Item 8', value: '8', search: 'Item 8' },
-];
-
 export interface CameraComponentProps {
   value: string;
   clientValue: string;
+  isClient: boolean;
+  isCategory:boolean;
   onClientChange: (client) => void;
   onCategoryChange: (category) => void;
 }
 
-export const ClientCategoryDropdown : React.FC<CameraComponentProps> = ({value,clientValue, onClientChange, onCategoryChange}:CameraComponentProps) => {
+export const ClientCategoryDropdown : React.FC<CameraComponentProps> = ({isClient,isCategory,value,clientValue, onClientChange, onCategoryChange}:CameraComponentProps) => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const [isClientFocus, setIsClientFocus] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
@@ -123,12 +114,24 @@ export const ClientCategoryDropdown : React.FC<CameraComponentProps> = ({value,c
           width={DeviceHelper.calculateWidthRatio(25)}
         />
       </Pressable>
-      <View style={{width:'45%'}}>
-       {renderClientDropdown()}
-      </View>
-      <View style={{width:'47%'}}>
-        {renderDropdown()}
-      </View>
+      {isClient ? (
+        <View style={{width:'90%'}}>
+          {renderDropdown()}
+        </View>
+      ) : isCategory ? (
+        <View style={{width:'90%'}}>
+          {renderClientDropdown()}
+        </View>
+      ) : (
+        <>
+          <View style={{width:'45%'}}>
+            {renderClientDropdown()}
+          </View>
+          <View style={{width:'47%'}}>
+            {renderDropdown()}
+          </View>
+        </>
+      )}
     </View>
   );
 };

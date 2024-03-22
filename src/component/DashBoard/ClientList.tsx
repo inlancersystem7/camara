@@ -10,23 +10,17 @@ import { ScrollView } from "react-native";
 import { navigate, Routes } from "@/navigation/AppNavigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientList, getDashboardClientList } from "@/redux/actions/clientAction";
+import { Category } from "@/Model/Category";
+import { Client } from "@/Model/Client";
 
+export interface ClientListProps {
+  onClientAdd: () => void;
+  clientList: Client[];
+}
 
-export const ClientList: React.FC = () => {
-  const dispatch = useDispatch();
+export const ClientList: React.FC<ClientListProps> = ({onClientAdd,clientList}:ClientListProps) => {
 
-  const callFactory = async () => {
-    dispatch(getDashboardClientList([]));
-  };
-
-  useEffect(() => {
-    callFactory();
-  }, []);
-
-  const clientList = useSelector((state: any) => state.clientReducer.dashboardClientList);
-  console.log("dashboardClientList=>",clientList);
-
-  const data = [1,2,3,4,5,6,7];
+   // console.log("dashboardClientList=>",clientList);
 
   const handleOnMorePress = () => {
     navigate({
@@ -37,7 +31,12 @@ export const ClientList: React.FC = () => {
   return (
     <Box marginTop={"r"}>
       {clientList.length > 0 && (
-      <Text marginLeft={"r"} fontSize={14} color={"black"} fontFamily={fonts.semiBold}>{'Clients'}</Text>
+       <Box flexDirection={"row"} justifyContent={"space-between"}>
+        <Text marginLeft={"r"} fontSize={14} color={"black"} fontFamily={fonts.semiBold}>{'Clients'}</Text>
+         <Pressable onPress={onClientAdd} position={"absolute"} marginTop={'mES'} backgroundColor={"white"} alignItems={"center"} right={12} height={35} width={30}>
+           <Text color={"black"} fontSize={22} fontFamily={fonts.bold}>+</Text>
+         </Pressable>
+       </Box>
       )}
       <Box flexDirection={"row"} marginTop={"s"} marginLeft={"s"} width={'100%'} flexWrap={"wrap"}>
         {clientList.map((item,index) => {

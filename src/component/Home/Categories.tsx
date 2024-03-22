@@ -29,6 +29,9 @@ export const Categories : React.FC<CategoriesProps> = ({dateView}:CategoriesProp
   const handleOnCamaraPress = () => {
     navigate({
       screenName: Routes.Camera,
+      params: {
+        isClient: false,
+      }
     });
   }
   return (

@@ -1,11 +1,24 @@
 import * as types from '../actions/actionTypes'
-import { ADD_CLIENT, GET_DASHBOARD_CLIENT_LIST, GET_PHOTOS_BY_CATEGORY_SUCCESS } from "../actions/actionTypes";
+import {
+  ADD_CLIENT,
+  EDIT_CLIENT,
+  GET_DASHBOARD_CLIENT_LIST,
+  GET_PHOTOS_BY_CATEGORY_SUCCESS,
+} from "../actions/actionTypes";
 
 export function addClient (data:any) {
   console.log("actionCData",data);
   return {
     type: types.ADD_CLIENT,
     data,
+  };
+}
+
+export function editClient (id:string , data:any) {
+  return {
+    type: types.EDIT_CLIENT,
+    id,
+    data
   };
 }
 

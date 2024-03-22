@@ -21,6 +21,9 @@ const CategoryScreen : React.FC<CategoryScreenProps> = ({photosList}:CategoryScr
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const [isCategories, setIsCategories] = useState(false);
 
+  const handleOnClose = () => {
+    setIsCategories(false);
+  }
   return (
     <Screen flex={1}>
       <Header
@@ -34,9 +37,9 @@ const CategoryScreen : React.FC<CategoryScreenProps> = ({photosList}:CategoryScr
         onBackPress={goBack}
         label={"Categories"}/>
       <ScrollView>
-        <CategoryList/>
+        <CategoryList onEdit={() => {setIsCategories(true)}} onClose={handleOnClose} isCategories={isCategories} />
       </ScrollView>
-      <AddCategoriesModel isVisible={isCategories} onClose={()=>setIsCategories(false)} />
+      {/*<AddCategoriesModel isEdit={isEdit} isVisible={isCategories} onClose={()=>setIsCategories(false)} />*/}
     </Screen>
   )
 }

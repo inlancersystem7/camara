@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Box } from "@/component/Box";
 import { Screen } from "@/component/Screen";
 import { refSideMenu, showSideMenu, SideMenu } from "@/component/SideMenu/SideMenu";
@@ -10,6 +10,7 @@ import { Dashboard } from "@/component/DashBoard/Dashboard";
 import { Animated, ScrollView } from "react-native";
 import { AnimatedHeader } from "@/component/Header/AnimatedHeader";
 import { AddPhotos } from "@/component/DashBoard/AddPhotos";
+import { fetchFile, fetchImagesFromDirectory } from "@/utils/SaveImagesUtils";
 
 
 const DashboardScreen: React.FC = () => {
@@ -43,6 +44,7 @@ const mapStateToProps = (state: any) => {
   return {
     categories: state.categoriesReducers?.categoryList || [],
     photos: state.photosReducers?.photosList || [],
+    client: state.clientReducer?.clientList || [],
   };
 };
 

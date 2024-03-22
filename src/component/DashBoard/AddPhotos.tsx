@@ -11,6 +11,9 @@ export const AddPhotos: React.FC = () => {
   const handleOnAddPress = () => {
     navigate({
       screenName: Routes.Camera,
+      params: {
+        isClient: false,
+      },
     });
   }
 

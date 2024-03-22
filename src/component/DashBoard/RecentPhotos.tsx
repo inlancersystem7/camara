@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Pressable, Text } from "@/component";
 import { fonts } from "@/style";
 import { FlatList, ScrollView } from "react-native";
@@ -23,9 +23,11 @@ export interface RecentPhotosProps {
 export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosProps) => {
 
   const dispatch = useDispatch();
-
+  const [photoList, setPhotoList] = useState([]);
   const callFactory = async () => {
     dispatch(getDashboardPhotosList([]));
+    const photosData =  dbPhotos.getFirstPhotosData();
+    setPhotoList(await photosData)
   };
 
   useEffect(() => {
@@ -33,14 +35,13 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
   }, []);
 
   const photosList = useSelector((state: any) => state.photosReducers.dashboardPhotosList);
-  console.log("DasphotosListtt=>",photosList.length);
 
   const handleOnMorePress = () => {
     navigate({
       screenName: Routes.AllPhotos,
     });
   }
-  console.log("resent",photosList.length);
+  // console.log("resent",photosList.length);
 
   return (
     <Box marginTop={"s"}>
@@ -72,7 +73,7 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
                 height={DeviceHelper.calculateHeightRatio(95)}/>
             </Box>
           )})}
-        {photosList.length > 7 && (
+        {photosList.length > 6 && (
         <Pressable
           marginTop={"s"}
           onPress={handleOnMorePress}
@@ -82,8 +83,8 @@ export const RecentPhotos: React.FC<RecentPhotosProps> = ({label}:RecentPhotosPr
           alignItems={"center"}
           borderWidth={1}
           borderColor={"black"}
-          height={DeviceHelper.calculateHeightRatio(90)}
-          width={DeviceHelper.calculateWidthRatio(95)}>
+          height={DeviceHelper.calculateHeightRatio(95)}
+          width={DeviceHelper.calculateWidthRatio(90)}>
           <Text fontSize={12} fontFamily={fonts.medium} color={"black"}>view</Text>
           <Text fontSize={12} fontFamily={fonts.medium} color={"black"}>more</Text>
         </Pressable>

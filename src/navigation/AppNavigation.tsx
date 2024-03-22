@@ -14,15 +14,16 @@ import CameraScreen from "@/Screen/CameraScreen";
 import NotesScreen from "@/Screen/NotesScreen";
 import DashboardScreen from "@/Screen/DashboardScreen";
 import ClientScreen from "@/Screen/ClientScreen";
-import AllPhotosScreen from "@/Screen/AllPhotosScreen";
 import ClientDetailScreen from "@/Screen/ClientDetailScreen";
 import CategoryScreen from "@/Screen/CategoryScreen";
+import AllPhotosScreen from "@/Screen/AllPhotosScreen";
 import { Client } from "@/Model/Client";
+// import { AllPhotosScreen } from "@/Screen/AllPhotosScreen";
 
 export type stackParamList = {
   SplashScreen: undefined;
   HomeScreen: undefined;
-  CameraScreen:undefined;
+  CameraScreen: { isClient: boolean, clientId?: string ,isCategory: boolean, categoryId?: string};
   DashboardScreen:undefined;
   ClientScreen:undefined;
   AllPhotosScreen:undefined;

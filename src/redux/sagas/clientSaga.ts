@@ -1,17 +1,20 @@
 // src/redux/sagas/notesSaga.ts
 import { call, put } from "redux-saga/effects";
 import { showMessage } from "react-native-flash-message";
-import * as clientAction from '../actions/clientAction';
+import * as clientAction from "../actions/clientAction";
 import { dbClient } from "@/WaterMelon/DBHelper/DBClient";
-import { getDashboardClientList } from "../actions/clientAction";
 
 export function * newClient(action){
   const {
     data
   } =action
-  console.log("sagaData",data);
   const response = yield call(dbClient.saveClient,{data});
   console.log("response ==>", response);
+  yield call(ClientList);
+}
+
+export function * editClient(action){
+  const response = yield call(dbClient.updateClientRecord,action.id,action.data);
   yield call(ClientList);
 }
 

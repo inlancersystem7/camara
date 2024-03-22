@@ -14,11 +14,54 @@ import { getClientList } from "@/redux/actions/clientAction";
 import { Client } from "@/Model/Client";
 import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
 import { dbClient } from "@/WaterMelon/DBHelper/DBClient";
+import { CustomModal } from "@/component/Action";
+import { Category } from "@/Model/Category";
 
 const ClientScreen: React.FC = () => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
   const [isClient, setIsClient] = useState(false);
   const dispatch = useDispatch();
+  const [isVisible,setIsVisible]=useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState('');
+  const [selectedItem, setSelectedItem] = useState<Client | null>(null);
+  const [isEdit, setIsEdit] = useState(false);
+  console.log("seleIn",selectedIndex);
+
+  const option = [
+    { label: 'Edit', onPress: () => { handleOnPressEdit(); } },
+    { label: 'Delete', onPress: () => { showDeleteConfirmation(); } },
+    { label: 'Cancel', onPress: () => { closeListModel(); } },
+  ];
+
+  const handleOnPressEdit = () => {
+    setIsEdit(true);
+    setIsVisible(false);
+    setIsClient(true);
+  }
+  const showDeleteConfirmation = () => {
+    setIsDelete(true);
+  };
+
+  const handleOnPressDelete = async (id:string) => {
+    try {
+      await dbClient.deleteClientRecord(id);
+      await callFactory();
+    } catch (error) {
+      console.error('Error deleting data: ', error);
+    }
+  }
+
+  const openListModel = (index) => {
+    console.log("index",index);
+    setSelectedIndex(index);
+    setIsVisible(true);
+  };
+
+  const closeListModel = () => {
+    setIsVisible(false);
+    setIsDelete(false);
+  };
 
 
 
@@ -60,11 +103,36 @@ const ClientScreen: React.FC = () => {
         {clientList?.map((item, index) => {
           console.log("item=>",item);
           return(
-            <ClientView client={item} onDetailPress={() => handleOnDetailPress(item)}/>
+            <ClientView
+              client={item}
+              onDotPress={() => {
+              openListModel(item.id.toString());
+              setSelectedItem(item);
+              }}
+              onDetailPress={() => handleOnDetailPress(item)}/>
           )
         })}
       </ScrollView>
-      <AddClientModel isVisible={isClient} onClose={()=>setIsClient(false)} />
+      <AddClientModel
+        onEdit={()=> {
+          setSelectedItem(null);
+          setIsEdit(false);
+        }}
+        selectedItem={selectedItem}
+        selectedIndex={selectedIndex}
+        isEdit={isEdit}
+        isVisible={isClient}
+        onClose={()=>setIsClient(false)} />
+      <CustomModal
+        isVisible={isVisible}
+        options={option}
+        isDelete={isDelete}
+        onYesPress={() => {
+          handleOnPressDelete(selectedIndex);
+          setIsDelete(false);
+          setIsVisible(false);
+        }}
+        onClose={closeListModel}/>
     </Screen>
   )
 }

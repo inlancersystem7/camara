@@ -8,4 +8,5 @@ export const Images = {
   plus: require('./pngs/plus.png'),
   img_worlds: require('./pngs/img_worlds.png'),
   placeholder: require('./pngs/placeholder.png'),
+  vertical_dots: require('./pngs/vertical_dots.png'),
 };

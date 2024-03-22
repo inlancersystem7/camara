@@ -57,7 +57,7 @@ export const CustomModal: React.FC<CustomModalProps> = (
 							fontFamily={fonts.regular}
 							fontSize={18}
 						>
-							{`Are you sure you want to delete \\"${label}\\" ?`}
+							{`Are you sure you want to delete ?`}
 						</Text>
 						<Text
 							marginTop="s"
@@ -65,7 +65,7 @@ export const CustomModal: React.FC<CustomModalProps> = (
 							fontSize={13}
 							fontFamily={fonts.regular}
 							textAlign="center"
-							color="color_424242"
+							color="gray"
 						>
 							This action can not be undone. Are you sure you want to delete this?
 						</Text>
@@ -74,7 +74,7 @@ export const CustomModal: React.FC<CustomModalProps> = (
 								onPress={onYesPress}
 								alignItems="center"
 								justifyContent="center"
-								backgroundColor="primary"
+								backgroundColor="color_424242"
 								width={86}
 								height={38}
 								borderRadius={8}
@@ -93,13 +93,13 @@ export const CustomModal: React.FC<CustomModalProps> = (
 								alignItems="center"
 								justifyContent="center"
 								borderWidth={1}
-								borderColor="primary"
+								borderColor="color_424242"
 								width={86}
 								height={38}
 								borderRadius={8}
 							>
 								<Text
-									color="primary"
+									color="color_424242"
 									fontSize={14}
 									fontFamily={fonts.regular}
 								>

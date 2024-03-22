@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, PermissionsAndroid } from "react-native";
 import { Box } from "@/component/Box";
 import { Text } from "@/component/Text";
 import { useDispatch } from "react-redux";
-import { addCategories } from "@/redux/actions/categoriesAction";
+import { addCategories, editCategories } from "@/redux/actions/categoriesAction";
 import { Header } from "@/component/Header/Header";
 import { goBack } from "@/navigation/AppNavigation";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -15,18 +15,23 @@ import { ProfileImage } from "@/component/Client/ProfileImage";
 import { Button } from "@/component/Button";
 import { CustomModal } from "@/component/Action";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addClient } from "@/redux/actions/clientAction";
+import { addClient, editClient } from "@/redux/actions/clientAction";
+import { Category } from "@/Model/Category";
+import { Client } from "@/Model/Client";
 
 export interface AddClientModelProps {
   isVisible: boolean;
   onClose:() => void;
+  isEdit: boolean;
+  onEdit:() => void;
+  selectedIndex?: string;
+  selectedItem?: Client;
 }
 
 export const AddClientModel: React.FC<AddClientModelProps> = (
-  { isVisible, onClose}
+  { isVisible, onClose,isEdit,onEdit,selectedItem,selectedIndex}
 ) => {
   const [imagePicker, setImagePicker] = useState(false);
-
   const dispatch = useDispatch();
   const {
     control,
@@ -36,6 +41,14 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
     formState: {errors},
   } = useForm();
 
+  useEffect(() => {
+    if (isEdit) {
+      setValue('clientProfile',selectedItem?.clientProfile);
+      setValue('clientName',selectedItem?.clientName);
+      setValue('clientBio',selectedItem?.clientBio);
+      setValue('clientNumber',selectedItem?.clientNumber);
+    }
+  }, [isEdit]);
 
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('es-IN', {
@@ -171,7 +184,15 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
         value: data,
       };
       console.log("json",json);
-      dispatch(addClient(json));
+      if (isEdit) {
+        const id = selectedIndex.toString();
+        console.log("id",id);
+        console.log("json",json);
+        onEdit();
+        dispatch(editClient(id, json));
+      } else {
+        dispatch(addClient(json));
+      }
       onClose();
       setValue('clientName','')
       setValue('clientBio','')
@@ -237,7 +258,7 @@ export const AddClientModel: React.FC<AddClientModelProps> = (
               </Box>
             ))}
             <Box marginHorizontal={"r"} marginTop={"s"}>
-              <Button label={"Add"} onPress={handleOnAddPress}/>
+              <Button label={isEdit ? 'Edit' : 'Add'} onPress={handleOnAddPress}/>
             </Box>
             <CustomModal
               isVisible={imagePicker}

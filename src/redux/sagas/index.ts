@@ -3,11 +3,14 @@ import * as types from '../actions/actionTypes'
 import * as categoriesSaga from '../sagas/categoriesSaga'
 import * as photosSaga from '../sagas/photosSaga'
 import * as clientSaga from '../sagas/clientSaga'
+import { editCategories } from "../sagas/categoriesSaga";
+import { editClient } from "../sagas/clientSaga";
 
 export default function* watch() {
 
   // category
   yield all([takeLeading(types.ADD_CATEGORIES, categoriesSaga.newCategories)]);
+  yield all([takeLeading(types.EDIT_CATEGORIES, categoriesSaga.editCategories)]);
   yield all([takeLeading(types.GET_CATEGORIES, categoriesSaga.categoriesList)]);
 
   // Photos
@@ -19,6 +22,7 @@ export default function* watch() {
 
   // Client
   yield all([takeLeading(types.ADD_CLIENT, clientSaga.newClient)]);
+  yield all([takeLeading(types.EDIT_CLIENT, clientSaga.editClient)]);
   yield all([takeLeading(types.GET_CLIENT_LIST, clientSaga.ClientList)]);
   yield all([takeLeading(types.GET_DASHBOARD_CLIENT_LIST, clientSaga.dashboardClientList)]);
 }

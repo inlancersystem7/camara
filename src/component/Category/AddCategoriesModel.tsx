@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from 'react-native';
 import { Pressable } from "@/component/Pressable";
 import { Box } from "@/component/Box";
@@ -6,19 +6,32 @@ import { Text } from "@/component/Text";
 import { Button } from "@/component/Button";
 import { Input } from "@/component/Input";
 import { useDispatch, useSelector } from 'react-redux';
-import { addCategories } from "@/redux/actions/categoriesAction";
+import { addCategories, editCategories } from "@/redux/actions/categoriesAction";
+import { Category } from "@/Model/Category";
 
 export interface AddCategoriesModelProps {
   isVisible: boolean;
+  isEdit: boolean;
+  onEdit:() => void;
   onClose:() => void;
+  selectedIndex?: string;
+  selectedItem?: Category;
 }
 
 export const AddCategoriesModel: React.FC<AddCategoriesModelProps> = (
-  { isVisible, onClose}
+  { isVisible ,isEdit,onEdit,selectedItem,onClose, selectedIndex}
 ) => {
   const [name, setName] = useState('');
   console.log("name=>",name);
+  console.log("isEdit=>",isEdit);
+  // const [editItem, setEditItem] = useState<Category | null>(null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isEdit) {
+      setName(selectedItem?.name);
+    }
+  }, [isEdit]);
 
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('es-IN', {
@@ -46,7 +59,15 @@ export const AddCategoriesModel: React.FC<AddCategoriesModelProps> = (
         key,
         value: data,
       };
-      dispatch(addCategories(json));
+      if (isEdit) {
+        const id = selectedIndex.toString();
+        console.log("id",id);
+        console.log("json",json);
+        onEdit();
+        dispatch(editCategories(id, json));
+      } else {
+        dispatch(addCategories(json));
+      }
       onClose();
       setName('');
     } catch (error) {
@@ -83,7 +104,7 @@ export const AddCategoriesModel: React.FC<AddCategoriesModelProps> = (
             />
           </Box>
           <Box marginTop={"mS"}>
-            <Button onPress={handleOnAddPress} label={"Add"}/>
+            <Button onPress={handleOnAddPress} label={isEdit ? 'Edit' : 'Add'}/>
           </Box>
         </Box>
       </Pressable>

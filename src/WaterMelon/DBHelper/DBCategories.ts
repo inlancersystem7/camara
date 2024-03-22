@@ -50,6 +50,39 @@ class DBCategories {
       throw error;
     }
   }
+
+  async deleteCategoryRecord(id) {
+    try {
+      await database.write(async () => {
+        const record = await database.get('Categories').find(id);
+        await record.destroyPermanently();
+        console.log('Record deleted successfully');
+        await database.get('Client').query().fetch();
+      });
+    } catch (error) {
+      console.error('Error deleting record:', error);
+      throw error;
+    }
+  }
+  async updateCategoryRecord(index, favourite) {
+    try {
+      await database.write(async () => {
+        const record = await database.get<Categories>('Categories').find(index);
+        // console.log("record ==>",record)
+        if (record) {
+          // const recordToUpdate = record[0];
+          await record.update(() => {
+            record.value = favourite.value ?? '';
+          });
+          console.log('Record updated successfully');
+        }
+      });
+    } catch (error) {
+      console.error('Error updating record:', error);
+      throw error;
+    }
+  }
+
 }
 
 export const dbCategories = new DBCategories();

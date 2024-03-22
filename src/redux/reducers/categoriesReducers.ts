@@ -14,6 +14,12 @@ export const categoriesReducers = createReducer(initialState, {
       isLoading: false
     };
   },
+  [types.EDIT_CATEGORIES](state) {
+    return {
+      ...state,
+      isLoading: false
+    };
+  },
   [types.GET_CATEGORIES](state, action) {
     console.log("action->",action);
     return {

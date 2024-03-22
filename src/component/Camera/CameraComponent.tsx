@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {PermissionsAndroid, StyleSheet, View} from 'react-native';
+import { PermissionsAndroid, Platform, StyleSheet, View } from "react-native";
 import {RNCamera} from 'react-native-camera';
 import {Pressable} from "@/component";
 import {DeviceHelper} from "@/helper/DeviceHelper";
@@ -7,6 +7,8 @@ import RNFS from 'react-native-fs';
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { addPhotos } from "@/redux/actions/photosAction";
+import { generateImageFolder, localPath, saveImageToFolder } from "@/utils/SaveImagesUtils";
+import { dbPhotos } from "@/WaterMelon/DBHelper/DBPhotos";
 // import { ImageManipulator } from 'expo-image-manipulator';
 
 export interface CameraComponentProps {
@@ -24,6 +26,7 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
             const date = moment().format('YYYYMMDDhhmmss');
             const filePath = RNFS.PicturesDirectoryPath + `/${date}camera.jpg`;
             await RNFS.moveFile(imageUri, filePath);
+            // await saveImageGallery(imageUri,  `/${date}camera.jpg`);
             // console.log('Image saved to gallery:', filePath);
         } catch (error) {
             console.error('Failed to save image:', error);
@@ -40,18 +43,44 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
                 client: client,
             };
             // console.log("json",json);
-            dispatch(addPhotos(json));
+            // dispatch(addPhotos(json));
+            await dbPhotos.savePhotos(json);
             console.log('Image saved to gallery:');
         } catch (error) {
             console.error('Failed to save image:', error);
         }
     };
 
+    // const localPath = async (image) => {
+    //     console.log('Cache directory path is ', image)
+    //     const fileName = image.split('/').pop();
+    //     console.log('Filename is ', fileName)
+    //     const newPath = `${RNFS.DocumentDirectoryPath}/${fileName}`; // You don't really need the `'file://` prefix
+    //     console.log(newPath);
+    //
+    //     try {
+    //         await RNFS.writeFile(image, newPath, 'utf8');
+    //         console.log('File saved successfully:', image);
+    //     } catch (error) {
+    //         console.error('Error saving file:', error);
+    //     }
+    //     // COPY the file
+    //     // RNFS.writeFile(image, newPath, 'utf8')
+    //     //   .then((success) => {
+    //     //       console.log('IMG saved!');
+    //     //       console.log(newPath);
+    //     //   })
+    //     //   .catch((err) => {
+    //     //       console.log(err.message);
+    //     //   });
+    //
+    //     return newPath
+    // }
 
     const takePicture = async () => {
         if (cameraRef.current) {
             const options = {
-                quality: 0.5,
+                quality: 0.2,
                 base64: true,
                 doNotSave: false,
                 pauseAfterCapture:true
@@ -72,7 +101,12 @@ export const CameraComponent: React.FC<CameraComponentProps> = ({category,client
                 );
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     await saveImageToGallery(data.uri)
-                    await saveImageToDatabase(data.uri)
+                    // await localPath(data.uri);
+                    // const folderPath = await generateImageFolder();
+                    // console.log("base",data.base64);
+                    // const fileName = await saveImageToFolder(data.uri, folderPath);
+                    // console.log("foleName",fileName);
+                    await saveImageToDatabase(data.base64)
                     return true;
                 } else {
                     console.log("Camera permission denied");

@@ -16,6 +16,12 @@ export const clientReducer = createReducer(initialState, {
       isLoading: false
     };
   },
+  [types.EDIT_CLIENT](state) {
+    return {
+      ...state,
+      isLoading: false
+    };
+  },
   [types.GET_CLIENT_LIST](state, action) {
     console.log("reducerClientList->",action);
     return {

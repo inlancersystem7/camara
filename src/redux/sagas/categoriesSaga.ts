@@ -12,6 +12,11 @@ export function * newCategories(action){
   yield call(categoriesList);
 }
 
+export function * editCategories(action){
+  const response = yield call(dbCategories.updateCategoryRecord,action.id,action.data);
+  yield call(categoriesList);
+}
+
 export function * categoriesList(action) {
   console.log("actionCSaga",action);
   const response = yield call(dbCategories.getCategoriesData);

@@ -28,7 +28,6 @@ export function getPhotosFailed() {
 }
 
 export function getPhotosListByCategory(category) {
-  console.log("Vid=>",category);
   return {
     type: types.GET_PHOTOS_BY_CATEGORY,
     category,

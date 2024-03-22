@@ -10,12 +10,12 @@ export interface PhotosProps {
 }
 
 export const Photos: React.FC<PhotosProps> = ({photosList}:PhotosProps) => {
-  console.log("photoListtt=>",photosList);
+  // console.log("photoListtt=>",photosList.value);
   return (
     <Box flex={1} margin={"ss"}>
       <Image
-        source={photosList.value}
-        // source={{ uri: `data:image/jpeg;base64,${photosList.value}` }}
+        // source={photosList.value}
+        source={{ uri: `data:image/jpeg;base64,${photosList.value}` }}
         resizeMode="cover"
         width={DeviceHelper.calculateWidthRatio(133)}
         height={DeviceHelper.calculateHeightRatio(140)}

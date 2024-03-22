@@ -48,7 +48,6 @@ export const photosReducers = createReducer(initialState, {
   },
   [types.GET_PHOTOS_BY_CATEGORY_AND_CLIENT_SUCCESS](state, action) {
     // console.log("Reducer Rescponce",Object.values(action.filteredData));
-    console.log("Reducer Sum",action.sum);
     return {
       ...state,
       clientCategoryPhotosList: Object.values(action.filteredData),

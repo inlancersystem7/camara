@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { Box, Text } from "@/component";
+import { Box, Pressable, Text } from "@/component";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { stackParamList } from "@/navigation/AppNavigation";
+import { navigate, Routes, stackParamList } from "@/navigation/AppNavigation";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Screen } from "@/component/Screen";
 import { Header } from "@/component/Header/Header";
@@ -13,6 +13,10 @@ import * as photosAction from "@/redux/actions/photosAction";
 import { Photos } from "@/component/DashBoard/Photos";
 import { dbCategories } from "@/WaterMelon/DBHelper/DBCategories";
 import { getCategoriesList } from "@/redux/actions/categoriesAction";
+import { fonts } from "@/style";
+import { DeviceHelper } from "@/helper/DeviceHelper";
+import { Image } from "@/component/Image";
+import { Images } from "@/assets";
 
 const ClientDetailScreen: React.FC = () => {
   const { goBack } = useNavigation<StackNavigationProp<stackParamList>>();
@@ -32,10 +36,34 @@ const ClientDetailScreen: React.FC = () => {
   const categoryList = useSelector((state: any) => state.categoriesReducers.categoryList);
   const clientCategoryPhotosList = useSelector((state: any) => state.photosReducers.clientCategoryPhotosList);
   console.log("clientCategoryPhotosList=>",clientCategoryPhotosList);
+  console.log("clientId=>",detail.id);
+
+  const handleOnPressCamera = () => {
+    navigate({
+      screenName: Routes.Camera,
+      params: {
+        isClient: true,
+        clientId: detail?.id
+      },
+    });
+  }
 
   return(
     <Screen>
-      <Header onBackPress={goBack} label={'Client Detail'}/>
+      <Header
+        rightComponent={
+          <Pressable onPress={handleOnPressCamera} alignItems={"flex-end"} marginRight={"r"} >
+            <Image
+              source={Images.camera}
+              // source={{ uri: `data:image/jpeg;base64,${photosList.value}` }}
+              resizeMode="cover"
+              width={DeviceHelper.calculateWidthRatio(25)}
+              height={DeviceHelper.calculateHeightRatio(25)}
+            />
+          </Pressable>
+        }
+        onBackPress={goBack}
+        label={'Client Detail'}/>
       <UserDetail client={detail}/>
       <Box marginTop={"r"}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

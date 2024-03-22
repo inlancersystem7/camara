@@ -22,9 +22,10 @@ import { Client } from "@/Model/Client";
 export interface ClientViewProps {
   client: Client;
   onDetailPress: () => void;
+  onDotPress: () => void;
 }
 
-export const ClientView: React.FC<ClientViewProps> = ({client,onDetailPress}:ClientViewProps) => {
+export const ClientView: React.FC<ClientViewProps> = ({client,onDetailPress,onDotPress}:ClientViewProps) => {
   return(
    <Pressable
      onPress={onDetailPress}
@@ -56,10 +57,19 @@ export const ClientView: React.FC<ClientViewProps> = ({client,onDetailPress}:Cli
           height={DeviceHelper.calculateHeightRatio(80)}/>
       )}
     </Box>
-     <Box marginLeft={"r"}>
+     <Box flex={1} marginLeft={"r"}>
        <Text fontFamily={fonts.semiBold} color={"fontBlack"} fontSize={14}>{client?.clientName}</Text>
        <Text fontFamily={fonts.medium} color={"gray"} fontSize={14}>{client?.clientBio}</Text>
      </Box>
+     <Pressable onPress={onDotPress} width={50} height={20} alignItems={"flex-end"}>
+       <Image
+         source={Images.vertical_dots}
+         // source={{ uri: `data:image/jpeg;base64,${photosList.value}` }}
+         resizeMode="cover"
+         width={DeviceHelper.calculateWidthRatio(10)}
+         height={DeviceHelper.calculateHeightRatio(20)}
+       />
+     </Pressable>
    </Pressable>
 )
 }
